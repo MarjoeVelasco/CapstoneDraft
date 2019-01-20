@@ -130,6 +130,7 @@
             android:id="@+id/cancel"
             android:layout_width="99dp"
             android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
             android:text="Cancel"
             app:layout_column="0"
             app:layout_row="10" />
