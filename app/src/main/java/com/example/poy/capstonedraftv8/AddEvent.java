@@ -178,7 +178,7 @@ public class AddEvent extends AppCompatActivity {
                         }
 
                     }
-
+                    int f;
                     int dd_id=Integer.parseInt(d_id);
                     dd_id=dd_id+1;
                     helper.insertData(millisSinceEpoch,mPickedColor,title,start_date,start_time,dd_id);
