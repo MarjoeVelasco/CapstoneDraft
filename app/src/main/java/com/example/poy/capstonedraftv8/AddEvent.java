@@ -161,7 +161,7 @@ public class AddEvent extends AppCompatActivity {
                     helper.insertData(millisSinceEpoch,mPickedColor,title,start_date,start_time,dd_id);
 
                 }
-               /* else
+                else
                 {
                     Cursor dbres4 = helper.getDateIdMax();
                     String d_id="";
@@ -179,14 +179,20 @@ public class AddEvent extends AppCompatActivity {
 
                     }
 
-
                     int dd_id=Integer.parseInt(d_id);
                     dd_id=dd_id+1;
                     helper.insertData(millisSinceEpoch,mPickedColor,title,start_date,start_time,dd_id);
 
+                    String[] a = start_date.split("-");
+                    String[] b = end_date.split("-");
+
+                    int c=Integer.parseInt(a[2]);
+                    int d=Integer.parseInt(b[2]);
+
+                    Message.message(getApplicationContext(),""+c+" to "+d);
 
 
-                }*/
+                }
 
 
                 Intent intent3 = new Intent(getApplicationContext(),MainActivity.class);
