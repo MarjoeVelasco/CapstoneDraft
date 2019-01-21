@@ -194,7 +194,7 @@ public class AddEvent extends AppCompatActivity {
 
                 }
 
-                int aaa;
+
                 Intent intent3 = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent3);
                 finish();
