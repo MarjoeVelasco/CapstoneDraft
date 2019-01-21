@@ -271,4 +271,12 @@ public class AddEvent extends AppCompatActivity {
         Message.message(this,data);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent3 = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(intent3);
+        finish();
+
+    }
+
 }
