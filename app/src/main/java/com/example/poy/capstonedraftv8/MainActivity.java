@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     String date_head = new SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(new Date());
     String date;
     String date_pass;
+
     FloatingActionButton fab;
 
     @Override
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 date_pass = dateFormat.format(dateClicked);
+
 
                 Context context = getApplicationContext();
 
