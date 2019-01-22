@@ -34,7 +34,7 @@ public class AddEvent extends AppCompatActivity {
     Button save,cancel;
     private Context mContext;
     public static int mPickedColor = Color.WHITE;
-    public static long millisSinceEpoch=0;
+
     public static String title="n/a";
 
     public static String start_date;
@@ -105,7 +105,12 @@ public class AddEvent extends AppCompatActivity {
                 end_date=pane2.getText().toString();
                 start_time=time.getText().toString();
 
-                String f_timestamp=start_date+" "+start_time;
+                title=desc.getText().toString();
+
+                if(start_date.equals(end_date))
+                {
+
+                    String f_timestamp=start_date+" "+start_time;
 
 
 
@@ -125,20 +130,17 @@ public class AddEvent extends AppCompatActivity {
                         .toEpochMilli();
                 */
 
-                String input = f_timestamp.replace( " " , "T" );
-                LocalDateTime ldt = LocalDateTime.parse( input ) ;
+                    String input = f_timestamp.replace( " " , "T" );
+                    LocalDateTime ldt = LocalDateTime.parse( input ) ;
 
 
-                ZoneId z = ZoneId.of( "Asia/Singapore" ) ;
-                ZonedDateTime zdt = ldt.atZone( z ) ;
-                Instant instant = zdt.toInstant() ;
-                millisSinceEpoch = instant.toEpochMilli() ;
+                    ZoneId z = ZoneId.of( "Asia/Singapore" ) ;
+                    ZonedDateTime zdt = ldt.atZone( z ) ;
+                    Instant instant = zdt.toInstant() ;
+                   long millisSinceEpoch = instant.toEpochMilli() ;
 
-                //time.setText(""+f_timestamp);
-                title=desc.getText().toString();
+                    //time.setText(""+f_timestamp);
 
-                if(start_date.equals(end_date))
-                {
                     Cursor dbres4 = helper.getDateIdMax();
                     String d_id="";
 
@@ -181,13 +183,39 @@ public class AddEvent extends AppCompatActivity {
 
                     int dd_id=Integer.parseInt(d_id);
                     dd_id=dd_id+1;
-                    helper.insertData(millisSinceEpoch,mPickedColor,title,start_date,start_time,dd_id);
 
                     String[] a = start_date.split("-");
                     String[] b = end_date.split("-");
 
                     int c=Integer.parseInt(a[2]);
                     int d=Integer.parseInt(b[2]);
+
+                    if(d>c)
+                    {
+                        int dif=d-c;
+
+                        for(int i=c;i<=d;i++)
+                        {
+                            String aa=a[0]+"-"+a[1]+"-"+i;
+                            String bb=start_time;
+
+                            String f_timestamp=aa+" "+bb;
+                            String input = f_timestamp.replace( " " , "T" );
+                            LocalDateTime ldt = LocalDateTime.parse( input ) ;
+
+
+                            ZoneId z = ZoneId.of( "Asia/Singapore" ) ;
+                            ZonedDateTime zdt = ldt.atZone( z ) ;
+                            Instant instant = zdt.toInstant() ;
+                            long millisSinceEpoch = instant.toEpochMilli() ;
+
+                            helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id);
+                        }
+                    }
+                    else
+                    {
+
+                    }
 
                     Message.message(getApplicationContext(),""+c+" to "+d);
 

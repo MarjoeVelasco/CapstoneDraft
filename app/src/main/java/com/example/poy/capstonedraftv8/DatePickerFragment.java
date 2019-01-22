@@ -18,7 +18,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         String ddate=tv.getText().toString();
         String[] a = ddate.split("-");
         int year = Integer.parseInt(a[0]);
-        int month = Integer.parseInt(a[1]);
+        int month = Integer.parseInt(a[1])-1;
         int day =Integer.parseInt(a[2]);
         //Create a new DatePickerDialog instance and return it
         /*

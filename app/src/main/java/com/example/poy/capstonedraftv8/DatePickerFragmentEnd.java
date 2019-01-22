@@ -20,7 +20,7 @@ public class DatePickerFragmentEnd extends DialogFragment implements DatePickerD
         String ddate=tv.getText().toString();
         String[] a = ddate.split("-");
         int year = Integer.parseInt(a[0]);
-        int month = Integer.parseInt(a[1]);
+        int month = Integer.parseInt(a[1])-1;
         int day =Integer.parseInt(a[2]);
 
 
