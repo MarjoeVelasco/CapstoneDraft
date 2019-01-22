@@ -25,6 +25,9 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 
 public class AddEvent extends AppCompatActivity {
 
@@ -160,6 +163,7 @@ public class AddEvent extends AppCompatActivity {
 
                     int dd_id=Integer.parseInt(d_id);
                     dd_id=dd_id+1;
+                    Message.message(getApplicationContext(),f_timestamp+" "+millisSinceEpoch);
                     helper.insertData(millisSinceEpoch,mPickedColor,title,start_date,start_time,dd_id);
 
                 }
@@ -190,16 +194,38 @@ public class AddEvent extends AppCompatActivity {
                     int c=Integer.parseInt(a[2]);
                     int d=Integer.parseInt(b[2]);
 
+                    int e=Integer.parseInt(a[1]);
+                    String ee;
+                    if(e<=9)
+                    {
+                        ee="0"+e;
+                    }
+                    else
+                    {
+                        ee=String.valueOf(e);
+                    }
+
                     if(d>c)
                     {
-                        int dif=d-c;
 
+                        String ccc="";
+                        String aa;
                         for(int i=c;i<=d;i++)
                         {
-                            String aa=a[0]+"-"+a[1]+"-"+i;
+                            if(i<=9)
+                            {
+                            aa=a[0]+"-"+ee+"-"+"0"+i;
+                            }
+                            else
+                            {
+                             aa=a[0]+"-"+ee+"-"+i;
+                            }
                             String bb=start_time;
 
+
+
                             String f_timestamp=aa+" "+bb;
+
                             String input = f_timestamp.replace( " " , "T" );
                             LocalDateTime ldt = LocalDateTime.parse( input ) ;
 
@@ -208,16 +234,49 @@ public class AddEvent extends AppCompatActivity {
                             ZonedDateTime zdt = ldt.atZone( z ) ;
                             Instant instant = zdt.toInstant() ;
                             long millisSinceEpoch = instant.toEpochMilli() ;
-
-                            helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id);
+                            //ccc=ccc+f_timestamp+" "+millisSinceEpoch+"\n";
+                           helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id);
                         }
+                        //Message.message(getApplicationContext(),ccc);
+
                     }
                     else
                     {
+                        String ccc="";
+                        String aa;
+                        int s=d;
+                        int l=c;
+                        for(int i=d;i<=c;i++)
+                        {
+                            if(i<=9)
+                            {
+                                aa=a[0]+"-"+ee+"-"+"0"+i;
+                            }
+                            else
+                            {
+                                aa=a[0]+"-"+ee+"-"+i;
+                            }
+                            String bb=start_time;
 
+
+
+                            String f_timestamp=aa+" "+bb;
+
+                            String input = f_timestamp.replace( " " , "T" );
+                            LocalDateTime ldt = LocalDateTime.parse( input ) ;
+
+
+                            ZoneId z = ZoneId.of( "Asia/Singapore" ) ;
+                            ZonedDateTime zdt = ldt.atZone( z ) ;
+                            Instant instant = zdt.toInstant() ;
+                            long millisSinceEpoch = instant.toEpochMilli() ;
+                            //ccc=ccc+f_timestamp+" "+millisSinceEpoch+"\n";
+                            helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id);
+                        }
                     }
 
-                    Message.message(getApplicationContext(),""+c+" to "+d);
+
+
 
 
                 }
