@@ -162,6 +162,13 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                             });
+                    alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            myList.clear();
+                        }
+                    });
 
 
 
@@ -202,6 +209,8 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     });
+
+
 
                     // show dialog
 
