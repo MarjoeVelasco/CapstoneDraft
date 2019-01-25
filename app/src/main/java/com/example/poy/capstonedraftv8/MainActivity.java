@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -60,12 +62,19 @@ public class MainActivity extends AppCompatActivity {
         myList = new ArrayList<String>();
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
+
+
+
         compactCalendar = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
+        show();
+
         compactCalendar.setUseThreeLetterAbbreviation(true);
         compactCalendar.getEvents(3223213);
         compactCalendar.shouldDrawIndicatorsBelowSelectedDays(true);
+        compactCalendar.setFirstDayOfWeek(Calendar.SUNDAY);
         helper = new myDbAdapter(this);
         Cursor dbres = helper.getAllData();
+
 
 
 
@@ -99,9 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        Intent intent = getIntent();
-//Get the USERNAME passed from IntentExampleActivity
-        String date_event = (String) intent.getSerializableExtra("date_event");
+
 
 
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -186,6 +193,8 @@ public class MainActivity extends AppCompatActivity {
 
                             R.layout.listview_item, myList);
 
+
+
                     lv.setAdapter(myadapter);
 
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -232,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getApplicationContext(),AddEvent.class);
                 intent.putExtra("date_event",date_pass);
                 startActivity(intent);
@@ -307,6 +317,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    void show(){
+        compactCalendar.showCalendarWithAnimation();
     }
 
 
