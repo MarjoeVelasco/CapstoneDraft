@@ -103,8 +103,22 @@ public class myDbAdapter {
         SQLiteDatabase db = myhelper.getWritableDatabase();
         String[] whereArgs ={uname};
 
-        int count =db.delete(myDbHelper.TABLE_NAME , myDbHelper.ID+" = ?",whereArgs);
+        int count =db.delete(myDbHelper.TABLE_NAME , myDbHelper.DATE_ID+" = ?",whereArgs);
         return  count;
+    }
+
+    public int updateEvent(long date_time,int color, String event, String date_start, String time_event, String date_id)
+    {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(myDbHelper.DATE_TIME, date_time);
+        contentValues.put(myDbHelper.COLOR, color);
+        contentValues.put(myDbHelper.EVENT, event);
+        contentValues.put(myDbHelper.DATE_START, date_start);
+        contentValues.put(myDbHelper.TIME_EVENT, time_event);
+        String[] whereArgs= {date_id};
+        int count =db.update(myDbHelper.TABLE_NAME,contentValues, myDbHelper.DATE_ID+" = ?",whereArgs );
+        return count;
     }
 
 

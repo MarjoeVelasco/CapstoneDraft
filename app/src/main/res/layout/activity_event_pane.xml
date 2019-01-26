@@ -24,16 +24,16 @@
             android:id="@+id/save2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
+            android:text="Update"
             app:layout_column="1"
             app:layout_row="10" />
 
         <Button
-            android:id="@+id/cancel2"
+            android:id="@+id/del"
             android:layout_width="99dp"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
-            android:text="Cancel"
+            android:text="Delete"
             app:layout_column="0"
             app:layout_row="10" />
 
@@ -66,7 +66,7 @@
             tools:layout_editor_absoluteY="100dp" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/textView"
             android:layout_width="207dp"
             android:layout_height="wrap_content"
             android:background="@android:drawable/editbox_background"
@@ -92,7 +92,7 @@
             app:layout_row="4" />
 
         <TextView
-            android:id="@+id/textView19"
+            android:id="@+id/textView7"
             android:layout_width="207dp"
             android:layout_height="wrap_content"
             android:background="@android:drawable/editbox_background"
@@ -101,7 +101,7 @@
             app:layout_row="4" />
 
         <TextView
-            android:id="@+id/time2"
+            android:id="@+id/time"
             android:layout_width="207dp"
             android:layout_height="wrap_content"
             android:background="@android:drawable/editbox_background"
@@ -167,5 +167,19 @@
             app:layout_row="2"
             tools:layout_editor_absoluteX="143dp"
             tools:layout_editor_absoluteY="383dp" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_column="0"
+            app:layout_row="9" />
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="98dp"
+            app:layout_column="1"
+            app:layout_row="9" />
     </android.support.v7.widget.GridLayout>
 </android.support.constraint.ConstraintLayout>

@@ -232,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
                             intent.putExtra("event_id",dataModel.getEvent_id());
                             intent.putExtra("date_id",dataModel.getDate_id());
                             startActivity(intent);
+                            finish();
 
 
                             alert.cancel();
