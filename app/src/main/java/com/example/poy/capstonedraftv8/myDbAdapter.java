@@ -43,6 +43,13 @@ public class myDbAdapter {
 
     }
 
+    public Cursor getStartDate(String date_id){
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+
+        Cursor res = db.rawQuery("select * from "+ myDbHelper.TABLE_NAME+" where "+ myDbHelper.DATE_ID+"=? order by "+myDbHelper.DATE_START+" asc limit 1",new String []{date_id});
+        return res;
+    }
+
     public Cursor getEndDate(String date_id){
         SQLiteDatabase db = myhelper.getWritableDatabase();
 
