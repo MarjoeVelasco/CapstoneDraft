@@ -43,6 +43,20 @@ public class myDbAdapter {
 
     }
 
+    public Cursor getEndDate(String date_id){
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+
+        Cursor res = db.rawQuery("select * from "+ myDbHelper.TABLE_NAME+" where "+ myDbHelper.DATE_ID+"=? order by "+myDbHelper.DATE_START+" desc limit 1",new String []{date_id});
+        return res;
+    }
+
+    public Cursor EndDateChecker(String date_id){
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+
+        Cursor res = db.rawQuery("select count(*) from "+myDbHelper.TABLE_NAME+" where "+myDbHelper.DATE_ID+"=?",new String []{date_id});
+        return res;
+    }
+
     public Cursor getDateIdMax() {
         SQLiteDatabase db = myhelper.getWritableDatabase();
 
