@@ -34,7 +34,7 @@ public class Event_pane extends AppCompatActivity {
         String date_id = (String)intent.getSerializableExtra("date_id");
 
         Cursor dbres = helper.getEventInfo(date_id);
-        Cursor dbres2 = helper.getStartDate(date_id);
+
 
 
         if(dbres.getCount() == 1)
@@ -64,22 +64,23 @@ public class Event_pane extends AppCompatActivity {
         }
         else
         {
-            /*String id="";
+            String id="";
             String color="";
             String event_name="";
             String event_date_start="";
             String event_date_end="";
             String event_time="";
 
-
+            Cursor dbres2 = helper.getStartDate(date_id);
 
             while (dbres2.moveToNext()) {
 
-                id= String.format(dbres.getString(0));
-                color = String.format(dbres.getString(2));
-                event_name = String.format(dbres.getString(3));
-                event_date_start = String.format(dbres.getString(4));
-                event_time = String.format(dbres.getString(5));
+                id= String.format(dbres2.getString(0));
+                color = String.format(dbres2.getString(2));
+                event_name = String.format(dbres2.getString(3));
+                event_date_start = String.format(dbres2.getString(4));
+                event_time = String.format(dbres2.getString(5));
+
 
             }
 
@@ -87,7 +88,8 @@ public class Event_pane extends AppCompatActivity {
 
             while (dbres3.moveToNext()) {
 
-                event_date_end = String.format(dbres.getString(4));
+                event_date_end = String.format(dbres3.getString(4));
+
 
             }
 
@@ -97,7 +99,7 @@ public class Event_pane extends AppCompatActivity {
             time.setText(event_time);
             desc.setText(event_name);
 
-            */
+
 
 
         }
