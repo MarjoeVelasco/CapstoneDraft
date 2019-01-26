@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     String date_pass;
 
     FloatingActionButton fab;
-    ArrayList<String> myList;
+
 
     ArrayList<DataModel> dataModels;
     private static CustomAdapter adapter;
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         date=date_first;
         date_pass=date;
 
-        myList = new ArrayList<String>();
+
         dataModels= new ArrayList<>();
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
@@ -148,8 +148,6 @@ public class MainActivity extends AppCompatActivity {
                         int color=Integer.parseInt(color2);
                         dataModels.add(new DataModel(event_name, event_time, event_id,date_id,color));
 
-                        event=event_name+" at "+event_time;
-                        myList.add(event);
 
 
 
@@ -220,11 +218,21 @@ public class MainActivity extends AppCompatActivity {
 
                             // TODO Auto-generated method stub
 
-                            Toast.makeText(MainActivity.this,
+                            /*Toast.makeText(MainActivity.this,
 
                                     "You have selected : " + myList.get(position),
 
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_SHORT).show();*/
+
+                            DataModel dataModel = dataModels.get(position);
+
+                            Message.message(getApplicationContext(),dataModel.getEvent_id()+" "+dataModel.getDate_id());
+
+                            Intent intent = new Intent(MainActivity.this,Event_pane.class);
+                            intent.putExtra("event_id",dataModel.getEvent_id());
+                            intent.putExtra("date_id",dataModel.getDate_id());
+                            startActivity(intent);
+
 
                             alert.cancel();
 
