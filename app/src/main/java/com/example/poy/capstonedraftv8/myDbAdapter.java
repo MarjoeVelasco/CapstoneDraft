@@ -59,13 +59,15 @@ public class myDbAdapter {
         return res;
     }
 
-// CHECK IF EVENT HAS MULTIPLE DATES
-    public Cursor DateChecker(String date_id){
+// GETTING EVENT INFO
+    public Cursor getEventInfo(String date_id){
         SQLiteDatabase db = myhelper.getWritableDatabase();
 
-        Cursor res = db.rawQuery("select count(*) from "+myDbHelper.TABLE_NAME+" where "+myDbHelper.DATE_ID+"=?",new String []{date_id});
+        Cursor res = db.rawQuery("select * from "+ myDbHelper.TABLE_NAME+" where "+ myDbHelper.DATE_ID+"=?",new String []{date_id});
         return res;
     }
+
+
 
     public Cursor getDateIdMax() {
         SQLiteDatabase db = myhelper.getWritableDatabase();
