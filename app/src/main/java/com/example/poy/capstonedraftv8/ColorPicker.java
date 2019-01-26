@@ -44,7 +44,7 @@ public class ColorPicker {
         gv.setVerticalSpacing(20);
         gv.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
         gv.setBackgroundColor(Color.TRANSPARENT);
-        gv.setPadding(10, 40, 10, 40);
+        gv.setPadding(20, 20, 20, 40);
         gv.setGravity(Gravity.CENTER);
 
 

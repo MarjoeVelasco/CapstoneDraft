@@ -17,5 +17,15 @@
 
     </style>
 
+    <style name="MyAlertDialogTheme2" parent="Theme.AppCompat.Dialog.Alert">
+
+
+        <item name="android:textColorPrimary">#22b653</item>
+        <item name="android:textColor">#22b653</item>
+        <item name="android:windowBackground">@drawable/dialog</item>
+
+
+    </style>
+
 
 </resources>

@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab;
     ArrayList<String> myList;
 
+    ArrayList<DataModel> dataModels;
+    private static CustomAdapter adapter;
+
 
 
 
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         date_pass=date;
 
         myList = new ArrayList<String>();
+        dataModels= new ArrayList<>();
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
 
@@ -135,16 +140,28 @@ public class MainActivity extends AppCompatActivity {
                     String time_event="";
                     while (dbres2.moveToNext()) {
 
+                        String event_name=String.format(dbres2.getString(3));
+                        String event_time=String.format(dbres2.getString(5));
+                        String event_id=String.format(dbres2.getString(0));
+                        String date_id=String.format(dbres2.getString(6));
+                        String color2=String.format(dbres2.getString(2));
+                        int color=Integer.parseInt(color2);
+                        dataModels.add(new DataModel(event_name, event_time, event_id,date_id,color));
 
-                        event="\t\t"+String.format(dbres2.getString(3))+" at "+String.format(dbres2.getString(5))+"\n";
+                        event=event_name+" at "+event_time;
                         myList.add(event);
+
+
 
                     }
 
+                    adapter= new CustomAdapter(dataModels,getApplicationContext());
 
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(
 
-                            MainActivity.this);
+                            MainActivity.this,R.style.MyAlertDialogTheme2);
+
+                    alertDialog.setTitle("EVENTS");
 
                     LayoutInflater inflater = getLayoutInflater();
 
@@ -164,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
                                                     int which) {
 
-                                    myList.clear();
+                                    dataModels.clear();
 
 
 
@@ -175,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onCancel(DialogInterface dialog) {
-                            myList.clear();
+                            dataModels.clear();
                         }
                     });
 
@@ -189,15 +206,9 @@ public class MainActivity extends AppCompatActivity {
 
                     final AlertDialog alert = alertDialog.create();
 
-                    alert.setTitle(" EVENTS"); // Title
+                    alert.setTitle("EVENTS"); // Title
 
-                    MyAdapter myadapter = new MyAdapter(MainActivity.this,
-
-                            R.layout.listview_item, myList);
-
-
-
-                    lv.setAdapter(myadapter);
+                    lv.setAdapter(adapter);
 
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -211,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
                             Toast.makeText(MainActivity.this,
 
-                                    "You have selected -: " + myList.get(position),
+                                    "You have selected : " + myList.get(position),
 
                                     Toast.LENGTH_SHORT).show();
 
@@ -220,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     });
+
 
 
 
@@ -253,73 +265,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    class MainListHolder {
 
-        private TextView tvText;
-
-    }
-
-
-
-    private class ViewHolder {
-
-        TextView tvSname;
-
-    }
-
-    class MyAdapter extends ArrayAdapter<String> {
-
-        LayoutInflater inflater;
-
-        Context myContext;
-
-        List<String> newList;
-
-        public MyAdapter(Context context, int resource, List<String> list) {
-
-            super(context, resource, list);
-
-            // TODO Auto-generated constructor stub
-
-            myContext = context;
-
-            newList = list;
-
-            inflater = LayoutInflater.from(context);
-
-        }
-
-        @Override
-
-        public View getView(final int position, View view, ViewGroup parent) {
-
-            final ViewHolder holder;
-
-            if (view == null) {
-
-                holder = new ViewHolder();
-
-                view = inflater.inflate(R.layout.listview_item, null);
-
-                holder.tvSname = (TextView) view.findViewById(R.id.tvtext_item);
-
-                view.setTag(holder);
-
-            } else {
-
-                holder = (ViewHolder) view.getTag();
-
-            }
-
-            holder.tvSname.setText(newList.get(position).toString());
-
-
-
-            return view;
-
-        }
-
-    }
 
     void show(){
         compactCalendar.showCalendarWithAnimation();
