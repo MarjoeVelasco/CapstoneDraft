@@ -43,6 +43,7 @@ public class myDbAdapter {
 
     }
 
+// GETTING START DATE
     public Cursor getStartDate(String date_id){
         SQLiteDatabase db = myhelper.getWritableDatabase();
 
@@ -50,6 +51,7 @@ public class myDbAdapter {
         return res;
     }
 
+// GETTING END DATE
     public Cursor getEndDate(String date_id){
         SQLiteDatabase db = myhelper.getWritableDatabase();
 
@@ -57,7 +59,8 @@ public class myDbAdapter {
         return res;
     }
 
-    public Cursor EndDateChecker(String date_id){
+// CHECK IF EVENT HAS MULTIPLE DATES
+    public Cursor DateChecker(String date_id){
         SQLiteDatabase db = myhelper.getWritableDatabase();
 
         Cursor res = db.rawQuery("select count(*) from "+myDbHelper.TABLE_NAME+" where "+myDbHelper.DATE_ID+"=?",new String []{date_id});
