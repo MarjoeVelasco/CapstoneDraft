@@ -15,10 +15,16 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
 import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
+
+
+
 
 public class Event_pane extends AppCompatActivity {
 
@@ -48,6 +54,7 @@ public class Event_pane extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AndroidThreeTen.init(this);
         setContentView(R.layout.activity_event_pane);
 
         helper = new myDbAdapter(this);
@@ -224,7 +231,7 @@ public class Event_pane extends AppCompatActivity {
                         Message.message(getApplicationContext(),"Unsuccessful");
 
                     } else {
-                        Message.message(getApplicationContext(),"Updated");
+                        Message.message(getApplicationContext(),"Event Updated");
 
                     }
                     //Message.message(getApplicationContext(),f_timestamp+" "+millisSinceEpoch);
@@ -237,111 +244,98 @@ public class Event_pane extends AppCompatActivity {
                     String d_id="";
 
 
+                    try
+                    {
+                        while (dbres4.moveToNext()) {
 
+                            d_id=String.format(dbres4.getString(0));
+                            if(d_id.equals("0"))
+                            {
+                                d_id="0";
+                            }
 
-                    while (dbres4.moveToNext()) {
-
-                        d_id=String.format(dbres4.getString(0));
-                        if(d_id.equals("0"))
-                        {
-                            d_id="0";
                         }
 
-                    }
+                        int dd_id=Integer.parseInt(d_id);
+                        dd_id=dd_id+1;
 
-                    int dd_id=Integer.parseInt(d_id);
-                    dd_id=dd_id+1;
+                        String[] a = start_date.split("-");
+                        String[] b = end_date.split("-");
 
-                    String[] a = start_date.split("-");
-                    String[] b = end_date.split("-");
+                        int c=Integer.parseInt(a[2]);
+                        int d=Integer.parseInt(b[2]);
 
-                    int c=Integer.parseInt(a[2]);
-                    int d=Integer.parseInt(b[2]);
-
-                    int e=Integer.parseInt(a[1]);
-                    String ee;
-                    if(e<=9)
-                    {
-                        ee="0"+e;
-                    }
-                    else
-                    {
-                        ee=String.valueOf(e);
-                    }
-
-                    if(d>c)
-                    {
-
-                        String ccc="";
-                        String aa;
-                        for(int i=c;i<=d;i++)
+                        int e=Integer.parseInt(a[1]);
+                        String ee;
+                        if(e<=9)
                         {
-                            if(i<=9)
-                            {
-                                aa=a[0]+"-"+ee+"-"+"0"+i;
-                            }
-                            else
-                            {
-                                aa=a[0]+"-"+ee+"-"+i;
-                            }
-                            String bb=start_time;
-
-
-
-                            String f_timestamp=aa+" "+bb;
-
-                            String input = f_timestamp.replace( " " , "T" );
-                            LocalDateTime ldt = LocalDateTime.parse( input ) ;
-
-
-                            ZoneId z = ZoneId.of( "Asia/Singapore" ) ;
-                            ZonedDateTime zdt = ldt.atZone( z ) ;
-                            Instant instant = zdt.toInstant() ;
-                            long millisSinceEpoch = instant.toEpochMilli() ;
-                            //ccc=ccc+f_timestamp+" "+millisSinceEpoch+"\n";
-                            helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id);
+                            ee="0"+e;
                         }
-                        //Message.message(getApplicationContext(),ccc);
-
-                    }
-                    else
-                    {
-                        String ccc="";
-                        String aa;
-                        int s=d;
-                        int l=c;
-                        for(int i=d;i<=c;i++)
+                        else
                         {
-                            if(i<=9)
-                            {
-                                aa=a[0]+"-"+ee+"-"+"0"+i;
-                            }
-                            else
-                            {
-                                aa=a[0]+"-"+ee+"-"+i;
-                            }
-                            String bb=start_time;
-
-
-
-                            String f_timestamp=aa+" "+bb;
-
-                            String input = f_timestamp.replace( " " , "T" );
-                            LocalDateTime ldt = LocalDateTime.parse( input ) ;
-
-
-                            ZoneId z = ZoneId.of( "Asia/Singapore" ) ;
-                            ZonedDateTime zdt = ldt.atZone( z ) ;
-                            Instant instant = zdt.toInstant() ;
-                            long millisSinceEpoch = instant.toEpochMilli() ;
-                            //ccc=ccc+f_timestamp+" "+millisSinceEpoch+"\n";
-                            helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id);
+                            ee=String.valueOf(e);
                         }
+
+                        if(d>c)
+                        {
+
+
+                            String aa;
+                            for(int i=c;i<=d;i++)
+                            {
+                                if(i<=9)
+                                {
+                                    aa=a[0]+"-"+ee+"-"+"0"+i;
+                                }
+                                else
+                                {
+                                    aa=a[0]+"-"+ee+"-"+i;
+                                }
+                                String bb=start_time;
+
+
+
+                                String f_timestamp=aa+" "+bb;
+
+                                long millisSinceEpoch =epochConverter(f_timestamp);
+                                //ccc=ccc+f_timestamp+" "+millisSinceEpoch+"\n";
+                                helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id);
+                            }
+                            //Message.message(getApplicationContext(),ccc);
+
+                        }
+                        else
+                        {
+
+                            String aa;
+                            int s=d;
+                            int l=c;
+                            for(int i=d;i<=c;i++)
+                            {
+                                if(i<=9)
+                                {
+                                    aa=a[0]+"-"+ee+"-"+"0"+i;
+                                }
+                                else
+                                {
+                                    aa=a[0]+"-"+ee+"-"+i;
+                                }
+                                String bb=start_time;
+
+                                String f_timestamp=aa+" "+bb;
+
+                                long millisSinceEpoch =epochConverter(f_timestamp);
+
+                                helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id);
+                            }
+                        }
+
+                        helper.delete(id);
+                        Message.message(getApplicationContext(),"Event Updated");
+                    }catch (Exception e)
+                    {
+                        Message.message(getApplicationContext(),e.getMessage());
                     }
-
-
-
-
 
                 }
 
