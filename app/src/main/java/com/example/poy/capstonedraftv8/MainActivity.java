@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -278,6 +277,14 @@ public class MainActivity extends AppCompatActivity {
 
     void show(){
         compactCalendar.showCalendarWithAnimation();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent3 = new Intent(getApplicationContext(), Menu.class);
+        startActivity(intent3);
+        finish();
+
     }
 
 
