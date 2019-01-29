@@ -129,28 +129,28 @@ public class MainActivity extends AppCompatActivity {
 
                 Cursor dbres2 = helper.getEventData(date_pass);
                 if(dbres2.getCount() == 0)
-                {
+                    {
 
-                    Snackbar.make(findViewById(android.R.id.content),"No Events on this day",Snackbar.LENGTH_SHORT).show();
-
-                }
-                else {
-                    String event;
-                    String time_event="";
-                    while (dbres2.moveToNext()) {
-
-                        String event_name=String.format(dbres2.getString(3));
-                        String event_time=String.format(dbres2.getString(5));
-                        String event_id=String.format(dbres2.getString(0));
-                        String date_id=String.format(dbres2.getString(6));
-                        String color2=String.format(dbres2.getString(2));
-                        int color=Integer.parseInt(color2);
-                        dataModels.add(new DataModel(event_name, event_time, event_id,date_id,color));
-
-
-
+                        Snackbar.make(findViewById(android.R.id.content),"No Events on this day",Snackbar.LENGTH_SHORT).show();
 
                     }
+                    else {
+                        String event;
+                        String time_event="";
+                        while (dbres2.moveToNext()) {
+
+                            String event_name=String.format(dbres2.getString(3));
+                            String event_time=String.format(dbres2.getString(5));
+                            String event_id=String.format(dbres2.getString(0));
+                            String date_id=String.format(dbres2.getString(6));
+                            String color2=String.format(dbres2.getString(2));
+                            int color=Integer.parseInt(color2);
+                            dataModels.add(new DataModel(event_name, event_time, event_id,date_id,color));
+
+
+
+
+                        }
 
                     adapter= new CustomAdapter(dataModels,getApplicationContext());
 

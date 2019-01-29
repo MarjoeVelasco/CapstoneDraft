@@ -34,6 +34,15 @@ public class Menu extends AppCompatActivity {
             }
         });
 
+        events.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Menu.this,Event_list.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
     @Override
     public void onBackPressed() {
