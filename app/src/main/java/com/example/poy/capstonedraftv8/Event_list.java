@@ -155,7 +155,14 @@ public class Event_list extends AppCompatActivity {
 
             @Override
             public void onLeftClicked(int position) {
-                Snackbar.make(findViewById(android.R.id.content),"Underconstruction d pa tapos",Snackbar.LENGTH_SHORT).show();
+                DataModelEventList dataModel = dataModels2.get(position);
+                final String id=dataModel.getDate_id();
+                final int a=position;
+                Intent intent =new Intent(Event_list.this,Event_pane2.class);
+                intent.putExtra("date_id",id);
+                startActivity(intent);
+                finish();
+
 
             }
 
