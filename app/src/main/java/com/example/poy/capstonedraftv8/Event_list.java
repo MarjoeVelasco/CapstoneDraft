@@ -1,5 +1,7 @@
 package com.example.poy.capstonedraftv8;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Canvas;
@@ -9,6 +11,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
@@ -87,12 +97,60 @@ public class Event_list extends AppCompatActivity {
             @Override
             public void onRightClicked(int position) {
                 DataModelEventList dataModel = dataModels2.get(position);
-                String id=dataModel.getDate_id();
-                helper.delete(id);
-                Snackbar.make(findViewById(android.R.id.content),"Event Deleted",Snackbar.LENGTH_SHORT).show();
-                mAdapter.events.remove(position);
-                mAdapter.notifyItemRemoved(position);
-                mAdapter.notifyItemRangeChanged(position, mAdapter.getItemCount());
+               final String id=dataModel.getDate_id();
+                final int a=position;
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+
+                        Event_list.this,R.style.MyAlertDialogTheme2);
+
+                alertDialog.setTitle("DELETE");
+                final TextView mess = new TextView(Event_list.this);
+                mess.setText("\n\t\tAre you sure?");
+                mess.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 9F, getApplicationContext().getResources().getDisplayMetrics()));
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                mess.setLayoutParams(lp);
+                alertDialog.setView(mess);
+
+                alertDialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        mAdapter.events.remove(a);
+                        mAdapter.notifyItemRemoved(a);
+                        mAdapter.notifyItemRangeChanged(a, mAdapter.getItemCount());
+
+                        helper.delete(id);
+                        Snackbar.make(findViewById(android.R.id.content),"Event Deleted",Snackbar.LENGTH_SHORT).show();
+
+                    }
+                });
+
+                alertDialog.setNegativeButton("Cancel",
+
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+
+                            public void onClick(DialogInterface dialog,
+
+                                                int which) {
+                                dialog.cancel();
+
+
+
+                            }
+
+                        });
+
+
+
+
+
+                alertDialog.show();
             }
 
             @Override
