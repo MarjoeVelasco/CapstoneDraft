@@ -12,6 +12,7 @@ import java.util.List;
 
 public class CustomAdapterListview extends RecyclerView.Adapter<CustomAdapterListview.PlayerViewHolder>{
 
+
     public ArrayList<DataModelEventList> events;
 
     public class PlayerViewHolder extends RecyclerView.ViewHolder {
@@ -40,13 +41,15 @@ public class CustomAdapterListview extends RecyclerView.Adapter<CustomAdapterLis
         return new PlayerViewHolder(itemView);
     }
 
+
     @Override
     public void onBindViewHolder(PlayerViewHolder holder, int position) {
+
         DataModelEventList player = events.get(position);
         holder.name.setText(player.getEvent_name());
-        holder.date_event.setText(player.getEvent_date());
         holder.time.setText(player.getEvent_time());
         holder.contain.setBackgroundColor(player.getColor());
+        holder.date_event.setText(player.getEvent_date());
     }
 
     @Override

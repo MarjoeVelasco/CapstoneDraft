@@ -43,7 +43,16 @@ public class myDbAdapter {
 
     }
 
-// GETTING START DATE
+    public Cursor getEventDataList(){
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+
+        Cursor res = db.rawQuery("select * from "+ myDbHelper.TABLE_NAME+" order by "+myDbHelper.DATE_START+" asc,"+myDbHelper.TIME_EVENT+" asc",null);
+        return res;
+    }
+
+
+
+    // GETTING START DATE
     public Cursor getStartDate(String date_id){
         SQLiteDatabase db = myhelper.getWritableDatabase();
         String[] whereArgs ={date_id};
@@ -51,6 +60,8 @@ public class myDbAdapter {
         Cursor res = db.rawQuery("select * from "+ myDbHelper.TABLE_NAME+" where "+ myDbHelper.DATE_ID+"=? order by "+myDbHelper.DATE_START+" asc limit 1",whereArgs);
         return res;
     }
+
+
 
 // GETTING END DATE
     public Cursor getEndDate(String date_id){

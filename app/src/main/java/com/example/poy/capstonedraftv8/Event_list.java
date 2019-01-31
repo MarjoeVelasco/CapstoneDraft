@@ -56,7 +56,7 @@ public class Event_list extends AppCompatActivity {
     }
 
     private void setPlayersDataAdapter() {
-        Cursor dbres = helper.getAllData();
+        Cursor dbres = helper.getEventDataList();
         if(dbres.getCount() == 0)
         {
 
@@ -71,14 +71,12 @@ public class Event_list extends AppCompatActivity {
                 String event_name=String.format(dbres.getString(3));
                 String event_time=String.format(dbres.getString(5));
                 String event_id=String.format(dbres.getString(0));
-                String date_id=String.format(dbres.getString(6));
                 String color2=String.format(dbres.getString(2));
                 String event_date=String.format(dbres.getString(4));
                 int color=Integer.parseInt(color2);
-                dataModels2.add(new DataModelEventList(event_name, event_time,event_date,event_id,date_id,color));
+                String date_id=String.format(dbres.getString(6));
 
-
-
+                    dataModels2.add(new DataModelEventList(event_name, event_time,event_date,event_id,date_id,color));
 
             }
 
