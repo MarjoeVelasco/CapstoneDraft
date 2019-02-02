@@ -19,7 +19,7 @@ public class CustomAdapterListview extends RecyclerView.Adapter<CustomAdapterLis
 
     public class PlayerViewHolder extends RecyclerView.ViewHolder {
         private TextView name,date_event,time,color,month;
-        private ImageView contain;
+        private LinearLayout contain;
 
         public PlayerViewHolder(View view) {
             super(view);
@@ -29,9 +29,7 @@ public class CustomAdapterListview extends RecyclerView.Adapter<CustomAdapterLis
             color = (TextView) view.findViewById(R.id.color);
             month = (TextView) view.findViewById(R.id.month);
 
-            contain = (ImageView) view.findViewById(R.id.contain);
-            contain.setScaleType(ImageView.ScaleType.FIT_XY);
-            contain.setAdjustViewBounds(true);
+            contain = (LinearLayout) view.findViewById(R.id.contain);
 
 
 
@@ -62,9 +60,8 @@ public class CustomAdapterListview extends RecyclerView.Adapter<CustomAdapterLis
         holder.time.setText(player.getEvent_time());
         holder.time.setTextColor(Color.WHITE);
 
-        holder.contain.setScaleType(ImageView.ScaleType.FIT_XY);
-        holder.contain.setBackgroundResource(R.drawable.trial6);
-        holder.contain.setAdjustViewBounds(true);
+
+        holder.contain.setBackgroundResource(R.mipmap.rice3);
 
 
         holder.date_event.setText(player.getEvent_date());
@@ -75,7 +72,7 @@ public class CustomAdapterListview extends RecyclerView.Adapter<CustomAdapterLis
         String[] temp_month=temp_date.split("-");
         int month=Integer.parseInt(temp_month[1]);
 
-        holder.month.setText(getMonthName(month));
+        //holder.month.setText(getMonthName(month));
         holder.month.setTextColor(Color.WHITE);
 
 

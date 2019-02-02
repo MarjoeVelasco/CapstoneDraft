@@ -9,29 +9,19 @@
     android:focusable="true">
 
 
-    <FrameLayout
-
+    <LinearLayout
+        android:id="@+id/contain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="4dp">
+        android:paddingTop="@dimen/default_gap">
 
 
-        <ImageView
-            android:id="@+id/contain"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            />
-
-        <TextView
-            android:id="@+id/month"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            tools:text="month" />
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/name"
@@ -39,10 +29,9 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_weight="1"
+                android:layout_marginLeft="@dimen/default_gap"
                 android:textStyle="bold"
-                tools:text="Event Name"
-                android:layout_marginTop="@android:dimen/app_icon_size"
-                android:layout_marginLeft="@dimen/default_gap"/>
+                tools:text="Event Name" />
 
             <ImageView
                 android:id="@+id/info"
@@ -52,38 +41,73 @@
                 android:src="@android:drawable/ic_dialog_info"
                 android:layout_marginTop="@dimen/default_gap"
                 android:layout_marginRight="@dimen/default_gap"
+
                 />
 
 
+        </LinearLayout>
 
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/date_event"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Date"
-                android:layout_marginTop="69sp"
-                android:layout_marginLeft="@dimen/default_gap"/>
+                android:layout_marginLeft="@dimen/default_gap"
+                tools:text="Date" />
 
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time: "
-                android:layout_marginTop="85sp"
-                android:layout_marginLeft="@dimen/default_gap"/>
+                android:layout_marginLeft="@dimen/default_gap"
+                android:text="Time: " />
 
 
 
+        </LinearLayout>
 
-    </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textView26"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+            <TextView
+                android:id="@+id/month"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                tools:text="" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>
