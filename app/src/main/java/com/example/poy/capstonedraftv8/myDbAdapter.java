@@ -43,10 +43,10 @@ public class myDbAdapter {
 
     }
 
-    public Cursor getEventDataList(){
+    public Cursor getEventDataList(String date_today){
         SQLiteDatabase db = myhelper.getWritableDatabase();
 
-        Cursor res = db.rawQuery("select * from "+ myDbHelper.TABLE_NAME+" order by "+myDbHelper.DATE_START+" asc,"+myDbHelper.TIME_EVENT+" asc",null);
+        Cursor res = db.rawQuery("select * from "+ myDbHelper.TABLE_NAME+" where "+ myDbHelper.DATE_START+"=? order by "+myDbHelper.DATE_START+" asc,"+myDbHelper.TIME_EVENT+" asc",new String []{date_today});
         return res;
     }
 

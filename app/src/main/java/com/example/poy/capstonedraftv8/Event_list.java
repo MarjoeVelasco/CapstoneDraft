@@ -25,8 +25,11 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Event_list extends AppCompatActivity {
 
@@ -56,7 +59,9 @@ public class Event_list extends AppCompatActivity {
     }
 
     private void setPlayersDataAdapter() {
-        Cursor dbres = helper.getEventDataList();
+
+        String date_today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        Cursor dbres = helper.getEventDataList(date_today);
         if(dbres.getCount() == 0)
         {
 
@@ -123,6 +128,7 @@ public class Event_list extends AppCompatActivity {
 
                         helper.delete(id);
                         Snackbar.make(findViewById(android.R.id.content),"Event Deleted",Snackbar.LENGTH_SHORT).show();
+
 
                     }
                 });
