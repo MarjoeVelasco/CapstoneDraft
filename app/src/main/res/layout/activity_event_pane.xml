@@ -7,18 +7,19 @@
     tools:context=".Event_pane">
 
     <android.support.v7.widget.GridLayout
+        android:id="@+id/gridLayout2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <Button
             android:id="@+id/save2"
@@ -182,4 +183,75 @@
             app:layout_column="1"
             app:layout_row="9" />
     </android.support.v7.widget.GridLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:padding="2dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ImageButton
+            android:id="@+id/landPrep"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/land_icon"
+            style="?android:borderlessButtonStyle"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:id="@+id/crop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/crop_icon"
+            style="?android:borderlessButtonStyle"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:id="@+id/care"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/care_icon"
+            style="?android:borderlessButtonStyle"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:id="@+id/pest"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/pest_icon"
+            style="?android:borderlessButtonStyle"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:id="@+id/harvest"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/harvest_icon"
+            style="?android:borderlessButtonStyle"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:id="@+id/others"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/others_icon"
+            android:scaleType="fitXY" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
