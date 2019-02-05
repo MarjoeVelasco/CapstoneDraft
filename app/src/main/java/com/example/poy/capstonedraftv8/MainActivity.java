@@ -10,12 +10,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -42,7 +44,12 @@ public class MainActivity extends AppCompatActivity {
     String date_pass;
 
     FloatingActionButton fab;
-    ArrayList<String> myList;
+
+
+    ArrayList<DataModel> dataModels;
+    private static CustomAdapter adapter;
+
+
 
 
     @Override
@@ -57,15 +64,23 @@ public class MainActivity extends AppCompatActivity {
         date=date_first;
         date_pass=date;
 
-        myList = new ArrayList<String>();
+
+        dataModels= new ArrayList<>();
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
+
+
+
         compactCalendar = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
+        show();
+
         compactCalendar.setUseThreeLetterAbbreviation(true);
         compactCalendar.getEvents(3223213);
         compactCalendar.shouldDrawIndicatorsBelowSelectedDays(true);
+        compactCalendar.setFirstDayOfWeek(Calendar.SUNDAY);
         helper = new myDbAdapter(this);
         Cursor dbres = helper.getAllData();
+
 
 
 
@@ -99,9 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        Intent intent = getIntent();
-//Get the USERNAME passed from IntentExampleActivity
-        String date_event = (String) intent.getSerializableExtra("date_event");
+
 
 
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -116,26 +129,36 @@ public class MainActivity extends AppCompatActivity {
 
                 Cursor dbres2 = helper.getEventData(date_pass);
                 if(dbres2.getCount() == 0)
-                {
+                    {
 
-                    Snackbar.make(findViewById(android.R.id.content),"No Events on this day",Snackbar.LENGTH_SHORT).show();
-
-                }
-                else {
-                    String event;
-                    String time_event="";
-                    while (dbres2.moveToNext()) {
-
-
-                        event="\t\t"+String.format(dbres2.getString(3))+" at "+String.format(dbres2.getString(5))+"\n";
-                        myList.add(event);
+                        Snackbar.make(findViewById(android.R.id.content),"No Events on this day",Snackbar.LENGTH_SHORT).show();
 
                     }
+                    else {
+                        String event;
+                        String time_event="";
+                        while (dbres2.moveToNext()) {
 
+                            String event_name=String.format(dbres2.getString(3));
+                            String event_time=String.format(dbres2.getString(5));
+                            String event_id=String.format(dbres2.getString(0));
+                            String date_id=String.format(dbres2.getString(6));
+                            String color2=String.format(dbres2.getString(2));
+                            int color=Integer.parseInt(color2);
+                            dataModels.add(new DataModel(event_name, event_time, event_id,date_id,color));
+
+
+
+
+                        }
+
+                    adapter= new CustomAdapter(dataModels,getApplicationContext());
 
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(
 
-                            MainActivity.this);
+                            MainActivity.this,R.style.MyAlertDialogTheme2);
+
+                    alertDialog.setTitle("EVENTS");
 
                     LayoutInflater inflater = getLayoutInflater();
 
@@ -155,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
                                                     int which) {
 
-                                    myList.clear();
+                                    dataModels.clear();
 
 
 
@@ -166,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onCancel(DialogInterface dialog) {
-                            myList.clear();
+                            dataModels.clear();
                         }
                     });
 
@@ -180,13 +203,9 @@ public class MainActivity extends AppCompatActivity {
 
                     final AlertDialog alert = alertDialog.create();
 
-                    alert.setTitle(" EVENTS"); // Title
+                    alert.setTitle("EVENTS"); // Title
 
-                    MyAdapter myadapter = new MyAdapter(MainActivity.this,
-
-                            R.layout.listview_item, myList);
-
-                    lv.setAdapter(myadapter);
+                    lv.setAdapter(adapter);
 
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -198,17 +217,29 @@ public class MainActivity extends AppCompatActivity {
 
                             // TODO Auto-generated method stub
 
-                            Toast.makeText(MainActivity.this,
+                            /*Toast.makeText(MainActivity.this,
 
-                                    "You have selected -: " + myList.get(position),
+                                    "You have selected : " + myList.get(position),
 
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_SHORT).show();*/
+
+                            DataModel dataModel = dataModels.get(position);
+
+                            Message.message(getApplicationContext(),dataModel.getEvent_id()+" "+dataModel.getDate_id());
+
+                            Intent intent = new Intent(MainActivity.this,Event_pane.class);
+                            intent.putExtra("event_id",dataModel.getEvent_id());
+                            intent.putExtra("date_id",dataModel.getDate_id());
+                            startActivity(intent);
+                            finish();
+
 
                             alert.cancel();
 
                         }
 
                     });
+
 
 
 
@@ -232,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getApplicationContext(),AddEvent.class);
                 intent.putExtra("date_event",date_pass);
                 startActivity(intent);
@@ -241,71 +273,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    class MainListHolder {
 
-        private TextView tvText;
 
+    void show(){
+        compactCalendar.showCalendarWithAnimation();
     }
 
-
-
-    private class ViewHolder {
-
-        TextView tvSname;
-
-    }
-
-    class MyAdapter extends ArrayAdapter<String> {
-
-        LayoutInflater inflater;
-
-        Context myContext;
-
-        List<String> newList;
-
-        public MyAdapter(Context context, int resource, List<String> list) {
-
-            super(context, resource, list);
-
-            // TODO Auto-generated constructor stub
-
-            myContext = context;
-
-            newList = list;
-
-            inflater = LayoutInflater.from(context);
-
-        }
-
-        @Override
-
-        public View getView(final int position, View view, ViewGroup parent) {
-
-            final ViewHolder holder;
-
-            if (view == null) {
-
-                holder = new ViewHolder();
-
-                view = inflater.inflate(R.layout.listview_item, null);
-
-                holder.tvSname = (TextView) view.findViewById(R.id.tvtext_item);
-
-                view.setTag(holder);
-
-            } else {
-
-                holder = (ViewHolder) view.getTag();
-
-            }
-
-            holder.tvSname.setText(newList.get(position).toString());
-
-
-
-            return view;
-
-        }
+    @Override
+    public void onBackPressed() {
+        Intent intent3 = new Intent(getApplicationContext(), Menu.class);
+        startActivity(intent3);
+        finish();
 
     }
 

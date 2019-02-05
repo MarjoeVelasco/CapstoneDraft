@@ -43,6 +43,44 @@ public class myDbAdapter {
 
     }
 
+    public Cursor getEventDataList(String date_today){
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+
+        Cursor res = db.rawQuery("select * from "+ myDbHelper.TABLE_NAME+" where "+ myDbHelper.DATE_START+"=? order by "+myDbHelper.DATE_START+" asc,"+myDbHelper.TIME_EVENT+" asc",new String []{date_today});
+        return res;
+    }
+
+
+
+    // GETTING START DATE
+    public Cursor getStartDate(String date_id){
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+        String[] whereArgs ={date_id};
+
+        Cursor res = db.rawQuery("select * from "+ myDbHelper.TABLE_NAME+" where "+ myDbHelper.DATE_ID+"=? order by "+myDbHelper.DATE_START+" asc limit 1",whereArgs);
+        return res;
+    }
+
+
+
+// GETTING END DATE
+    public Cursor getEndDate(String date_id){
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+
+        Cursor res = db.rawQuery("select * from "+ myDbHelper.TABLE_NAME+" where "+ myDbHelper.DATE_ID+"=? order by "+myDbHelper.DATE_START+" desc limit 1",new String []{date_id});
+        return res;
+    }
+
+// GETTING EVENT INFO
+    public Cursor getEventInfo(String date_id){
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+
+        Cursor res = db.rawQuery("select * from "+ myDbHelper.TABLE_NAME+" where "+ myDbHelper.DATE_ID+"=?",new String []{date_id});
+        return res;
+    }
+
+
+
     public Cursor getDateIdMax() {
         SQLiteDatabase db = myhelper.getWritableDatabase();
 
@@ -76,8 +114,22 @@ public class myDbAdapter {
         SQLiteDatabase db = myhelper.getWritableDatabase();
         String[] whereArgs ={uname};
 
-        int count =db.delete(myDbHelper.TABLE_NAME , myDbHelper.ID+" = ?",whereArgs);
+        int count =db.delete(myDbHelper.TABLE_NAME , myDbHelper.DATE_ID+" = ?",whereArgs);
         return  count;
+    }
+
+    public int updateEvent(long date_time,int color, String event, String date_start, String time_event, String date_id)
+    {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(myDbHelper.DATE_TIME, date_time);
+        contentValues.put(myDbHelper.COLOR, color);
+        contentValues.put(myDbHelper.EVENT, event);
+        contentValues.put(myDbHelper.DATE_START, date_start);
+        contentValues.put(myDbHelper.TIME_EVENT, time_event);
+        String[] whereArgs= {date_id};
+        int count =db.update(myDbHelper.TABLE_NAME,contentValues, myDbHelper.DATE_ID+" = ?",whereArgs );
+        return count;
     }
 
 
