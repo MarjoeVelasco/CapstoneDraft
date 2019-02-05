@@ -43,6 +43,15 @@ public class Menu extends AppCompatActivity {
             }
         });
 
+        weather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Menu.this,Weather_pane.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
     @Override
     public void onBackPressed() {
