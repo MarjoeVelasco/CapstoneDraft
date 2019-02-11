@@ -45,6 +45,7 @@ public class AddEvent extends AppCompatActivity {
     Spinner desc_choice;
     ImageButton landPrep,crop,care,pest,harvest,others;
     int checker=1;
+    int icon=1;
 
     private Context mContext;
     public static int mPickedColor = Color.WHITE;
@@ -110,6 +111,7 @@ public class AddEvent extends AppCompatActivity {
         landPrep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                icon=1;
 
                 task_title.setText("Land Preparation");
                 spinnerArray.clear();
@@ -133,7 +135,7 @@ public class AddEvent extends AppCompatActivity {
         crop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                icon=2;
                 task_title.setText("Crop Operation");
                 spinnerArray.clear();
                 spinnerArray.add("Transplanting");
@@ -156,7 +158,7 @@ public class AddEvent extends AppCompatActivity {
         care.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                icon=3;
                 task_title.setText("Water and Maintenance");
                 spinnerArray.clear();
                 spinnerArray.add("Irrigation");
@@ -181,7 +183,7 @@ public class AddEvent extends AppCompatActivity {
         pest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                icon=4;
                 task_title.setText("Pest and Disease Control");
                 spinnerArray.clear();
                 spinnerArray.add("Molluscicide");
@@ -206,7 +208,7 @@ public class AddEvent extends AppCompatActivity {
         harvest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                icon=5;
                 task_title.setText("Harvest Management");
                 spinnerArray.clear();
                 spinnerArray.add("Reaping");
@@ -231,7 +233,7 @@ public class AddEvent extends AppCompatActivity {
         others.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                icon=6;
                 task_title.setText("Others");
 
                 title2.setVisibility(View.VISIBLE);
@@ -348,7 +350,7 @@ public class AddEvent extends AppCompatActivity {
                     int dd_id=Integer.parseInt(d_id);
                     dd_id=dd_id+1;
                     //Message.message(getApplicationContext(),f_timestamp+" "+millisSinceEpoch);
-                    helper.insertData(millisSinceEpoch,mPickedColor,title,start_date,start_time,dd_id);
+                    helper.insertData(millisSinceEpoch,mPickedColor,title,start_date,start_time,dd_id,icon);
 
                 }
                 else
@@ -419,7 +421,7 @@ public class AddEvent extends AppCompatActivity {
                             Instant instant = zdt.toInstant() ;
                             long millisSinceEpoch = instant.toEpochMilli() ;
                             //ccc=ccc+f_timestamp+" "+millisSinceEpoch+"\n";
-                           helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id);
+                           helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id,icon);
                         }
                         //Message.message(getApplicationContext(),ccc);
 
@@ -455,7 +457,7 @@ public class AddEvent extends AppCompatActivity {
                             Instant instant = zdt.toInstant() ;
                             long millisSinceEpoch = instant.toEpochMilli() ;
                             //ccc=ccc+f_timestamp+" "+millisSinceEpoch+"\n";
-                            helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id);
+                            helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id,icon);
                         }
                     }
 

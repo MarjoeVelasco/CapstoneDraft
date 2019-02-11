@@ -8,9 +8,10 @@ public class DataModelEventList {
     String event_id;
     String date_id;
     int color;
+    int icon;
 
 
-    public DataModelEventList( String event_name,String event_time,String event_date,String event_id,String date_id,int color)
+    public DataModelEventList( String event_name,String event_time,String event_date,String event_id,String date_id,int color,int icon)
     {
 
         this.event_name=event_name;
@@ -19,6 +20,7 @@ public class DataModelEventList {
         this.event_id=event_id;
         this.date_id=date_id;
         this.color=color;
+        this.icon=icon;
     }
 
 
@@ -48,6 +50,8 @@ public class DataModelEventList {
     }
 
     public int getColor(){return color;}
+
+    public int getIcon(){return icon;}
 
 
 }

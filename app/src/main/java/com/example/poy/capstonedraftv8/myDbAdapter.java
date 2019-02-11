@@ -14,7 +14,38 @@ public class myDbAdapter {
         myhelper = new myDbHelper(context);
     }
 
-    public long insertData(long date_time,int color, String event,String date_start, String time_event, int date_id)
+
+
+    public long insertCrop(String crop_name,String crop, String variety)
+    {
+        SQLiteDatabase dbb = myhelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(myDbHelper.CROP_NAME, crop_name);
+        contentValues.put(myDbHelper.CROP, crop);
+        contentValues.put(myDbHelper.VARIETY, variety);
+
+        long id = dbb.insert(myDbHelper.TABLE_NAME2, null , contentValues);
+        return id;
+    }
+
+    public String getDataCrop()
+    {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+        String[] columns = {myDbHelper.ID2, myDbHelper.CROP_NAME, myDbHelper.CROP, myDbHelper.VARIETY};
+        Cursor cursor =db.query(myDbHelper.TABLE_NAME2,columns,null,null,null,null,null);
+        StringBuffer buffer= new StringBuffer();
+        while (cursor.moveToNext())
+        {
+            int cid          =cursor.getInt(cursor.getColumnIndex(myDbHelper.ID2));
+            String crop_name =cursor.getString(cursor.getColumnIndex(myDbHelper.CROP_NAME));
+            String  crop     =cursor.getString(cursor.getColumnIndex(myDbHelper.CROP));
+            String  variety  =cursor.getString(cursor.getColumnIndex(myDbHelper.VARIETY));
+            buffer.append(cid+ "   " + crop_name + "   " + crop +"  " + variety+"\n");
+        }
+        return buffer.toString();
+    }
+
+    public long insertData(long date_time,int color, String event,String date_start, String time_event, int date_id,int icon)
     {
         SQLiteDatabase dbb = myhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -24,9 +55,12 @@ public class myDbAdapter {
         contentValues.put(myDbHelper.DATE_START, date_start);
         contentValues.put(myDbHelper.TIME_EVENT, time_event);
         contentValues.put(myDbHelper.DATE_ID, date_id);
+        contentValues.put(myDbHelper.ICON, icon);
         long id = dbb.insert(myDbHelper.TABLE_NAME, null , contentValues);
         return id;
     }
+
+
 
     public Cursor getAllData() {
         SQLiteDatabase db = myhelper.getWritableDatabase();
@@ -145,11 +179,28 @@ public class myDbAdapter {
         private static final String DATE_START= "date_start";    // Column III
         private static final String TIME_EVENT= "time_event";    // Column III
         private static final String DATE_ID= "date_id";    // Column III
+        private static final String ICON = "icon";
         private static final String CREATE_TABLE = "CREATE TABLE "+TABLE_NAME+
-                " ("+ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+DATE_TIME+" BIGINT(99) ,"+ COLOR+" INTEGER,"+ EVENT+" VARCHAR(225),"+ DATE_START+" VARCHAR(225),"+ TIME_EVENT+" VARCHAR(225),"+ DATE_ID+" INTEGER);";
+                " ("+ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+DATE_TIME+" BIGINT(99) ,"+ COLOR+" INTEGER,"+ EVENT+" VARCHAR(225),"+ DATE_START+" VARCHAR(225),"+ TIME_EVENT+" VARCHAR(225),"+ DATE_ID+" INTEGER,"+ ICON+" INTEGER);";
 
 
         private static final String DROP_TABLE ="DROP TABLE IF EXISTS "+TABLE_NAME;
+
+
+        private static final String TABLE_NAME2 = "mycrops";   // Table Name
+        private static final String ID2="_id";     // Column I (Primary Key)
+        private static final String CROP_NAME = "crop_name";    //Column II
+        private static final String CROP = "crop";    //Column II
+        private static final String VARIETY = "variety";    //Column II
+
+        private static final String CREATE_TABLE2 = "CREATE TABLE "+TABLE_NAME2+
+                "("+ID2+" INTEGER PRIMARY KEY AUTOINCREMENT, "+CROP_NAME+" VARCHAR(255),"+ CROP+" VARCHAR(255),"+ VARIETY+" VARCHAR(255));";
+
+
+        private static final String DROP_TABLE2 ="DROP TABLE IF EXISTS "+TABLE_NAME2;
+
+
+
         private Context context;
 
         public myDbHelper(Context context) {
@@ -162,6 +213,7 @@ public class myDbAdapter {
 
             try {
                 db.execSQL(CREATE_TABLE);
+                db.execSQL(CREATE_TABLE2);
             } catch (Exception e) {
                 Message.message(context,""+e);
             }
@@ -172,6 +224,7 @@ public class myDbAdapter {
             try {
                 Message.message(context,"OnUpgrade");
                 db.execSQL(DROP_TABLE);
+                db.execSQL(DROP_TABLE2);
                 onCreate(db);
             }catch (Exception e) {
                 Message.message(context,""+e);

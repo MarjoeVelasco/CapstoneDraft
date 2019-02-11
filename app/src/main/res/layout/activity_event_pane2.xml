@@ -204,7 +204,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/land_icon"
+            android:background="@mipmap/land_icon"
             style="?android:borderlessButtonStyle"
             android:scaleType="fitXY" />
 
@@ -213,7 +213,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/crop_icon"
+            android:background="@mipmap/crop_icon"
             style="?android:borderlessButtonStyle"
             android:scaleType="fitXY" />
 
@@ -222,7 +222,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/care_icon"
+            android:background="@mipmap/care_icon"
             style="?android:borderlessButtonStyle"
             android:scaleType="fitXY" />
 
@@ -231,7 +231,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/pest_icon"
+            android:background="@mipmap/pest_icon"
             style="?android:borderlessButtonStyle"
             android:scaleType="fitXY" />
 
@@ -240,7 +240,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/harvest_icon"
+            android:background="@mipmap/harvest_icon"
             style="?android:borderlessButtonStyle"
             android:scaleType="fitXY" />
 
@@ -249,7 +249,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/others_icon"
+            android:background="@mipmap/others_icon"
             android:scaleType="fitXY" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

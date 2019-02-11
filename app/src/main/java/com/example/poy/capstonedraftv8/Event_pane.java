@@ -299,7 +299,7 @@ public class Event_pane extends AppCompatActivity {
 
                                 long millisSinceEpoch =epochConverter(f_timestamp);
                                 //ccc=ccc+f_timestamp+" "+millisSinceEpoch+"\n";
-                                helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id);
+                                helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id,1);
                             }
                             //Message.message(getApplicationContext(),ccc);
 
@@ -326,7 +326,7 @@ public class Event_pane extends AppCompatActivity {
 
                                 long millisSinceEpoch =epochConverter(f_timestamp);
 
-                                helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id);
+                                helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id,1);
                             }
                         }
 

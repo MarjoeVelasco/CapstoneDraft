@@ -101,6 +101,34 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
         viewHolder.color.setBackgroundColor(dataModel.getColor());
         viewHolder.name.setText("\t"+dataModel.getEvent_name());
         viewHolder.time.setText("\t"+dataModel.getEvent_time());
+        int a = dataModel.getIcon();
+
+        if(a==1)
+        {
+         viewHolder.info.setImageResource(R.drawable.land_iconv2);
+
+        }
+        else if(a==2)
+        {
+            viewHolder.info.setImageResource(R.drawable.crop_iconv2);
+        }
+        else if(a==3)
+        {
+            viewHolder.info.setImageResource(R.drawable.care_iconv2);
+        }
+        else if(a==4)
+        {
+            viewHolder.info.setImageResource(R.drawable.pest_iconv2);
+        }
+        else if(a==5)
+        {
+            viewHolder.info.setImageResource(R.drawable.harvest_iconv2);
+        }
+        else if(a==6)
+        {
+            viewHolder.info.setImageResource(R.drawable.others_iconv2);
+        }
+        viewHolder.info.setScaleType(ImageView.ScaleType.FIT_XY);
         viewHolder.info.setOnClickListener(this);
         viewHolder.info.setTag(position);
         // Return the completed view to render on screen

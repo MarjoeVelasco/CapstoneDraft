@@ -20,6 +20,7 @@ public class CustomAdapterListview extends RecyclerView.Adapter<CustomAdapterLis
     public class PlayerViewHolder extends RecyclerView.ViewHolder {
         private TextView name,date_event,time,color,month;
         private LinearLayout contain;
+        private ImageView info;
 
         public PlayerViewHolder(View view) {
             super(view);
@@ -28,7 +29,7 @@ public class CustomAdapterListview extends RecyclerView.Adapter<CustomAdapterLis
             time = (TextView) view.findViewById(R.id.time);
             color = (TextView) view.findViewById(R.id.color);
             month = (TextView) view.findViewById(R.id.month);
-
+            info = (ImageView)view.findViewById(R.id.info);
             contain = (LinearLayout) view.findViewById(R.id.contain);
 
 
@@ -63,6 +64,34 @@ public class CustomAdapterListview extends RecyclerView.Adapter<CustomAdapterLis
 
         holder.contain.setBackgroundResource(R.mipmap.rice3);
 
+        int a = player.getIcon();
+
+        if(a==1)
+        {
+            holder.info.setImageResource(R.drawable.land_iconv2);
+
+        }
+        else if(a==2)
+        {
+            holder.info.setImageResource(R.drawable.crop_iconv2);
+        }
+        else if(a==3)
+        {
+            holder.info.setImageResource(R.drawable.care_iconv2);
+        }
+        else if(a==4)
+        {
+            holder.info.setImageResource(R.drawable.pest_iconv2);
+        }
+        else if(a==5)
+        {
+            holder.info.setImageResource(R.drawable.harvest_iconv2);
+        }
+        else if(a==6)
+        {
+            holder.info.setImageResource(R.drawable.others_iconv2);
+        }
+        holder.info.setScaleType(ImageView.ScaleType.FIT_XY);
 
         holder.date_event.setText(player.getEvent_date());
         holder.date_event.setTextColor(Color.WHITE);
