@@ -27,9 +27,14 @@
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imageView4"
@@ -38,7 +43,6 @@
             android:layout_weight="1"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/aa" />
-
 
 
         <com.github.sundeepk.compactcalendarview.CompactCalendarView

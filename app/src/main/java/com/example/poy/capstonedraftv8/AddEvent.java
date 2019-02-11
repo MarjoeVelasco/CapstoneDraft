@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +15,12 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
@@ -27,14 +32,21 @@ import org.threeten.bp.ZonedDateTime;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AddEvent extends AppCompatActivity {
 
     myDbAdapter helper;
     TextView pane,pane2,r1,time,desc;
-    TextView btn;
+    TextView task_title,title2;
     Button save,cancel;
+    Spinner desc_choice;
+    ImageButton landPrep,crop,care,pest,harvest,others;
+    int checker=1;
+    int icon=1;
+
     private Context mContext;
     public static int mPickedColor = Color.WHITE;
 
@@ -58,7 +70,20 @@ public class AddEvent extends AppCompatActivity {
         pane2 = (TextView) findViewById(R.id.textView7);
         time = (TextView) findViewById(R.id.time);
         r1 = (TextView) findViewById(R.id.r1);
-        desc = (TextView) findViewById(R.id.desc);
+        desc = (EditText) findViewById(R.id.desc);
+
+        task_title = (TextView)findViewById(R.id.task_title);
+        title2 = (TextView)findViewById(R.id.title2);
+
+
+        landPrep = (ImageButton) findViewById(R.id.landPrep);
+        crop = (ImageButton) findViewById(R.id.crop);
+        care = (ImageButton) findViewById(R.id.care);
+        pest = (ImageButton) findViewById(R.id.pest);
+        harvest = (ImageButton) findViewById(R.id.harvest);
+        others = (ImageButton) findViewById(R.id.others);
+
+        desc_choice = (Spinner)findViewById(R.id.desc_choice);
    //     btn = (TextView) findViewById(R.id.textView3);
         Intent intent = getIntent();
 //Get the USERNAME passed from IntentExampleActivity
@@ -66,6 +91,160 @@ public class AddEvent extends AppCompatActivity {
 //Set text for greetMsg TextView
         pane.setText(date_event);
         pane2.setText(date_event);
+
+        final  List<String> spinnerArray =  new ArrayList<String>();
+        spinnerArray.add("Plowing");
+        spinnerArray.add("Harrowing");
+        spinnerArray.add("Levelling");
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, spinnerArray);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        desc_choice.setAdapter(adapter);
+
+        title2.setVisibility(View.VISIBLE);
+        desc.setVisibility(View.GONE);
+        desc_choice.setVisibility(View.VISIBLE);
+
+        landPrep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                icon=1;
+
+                task_title.setText("Land Preparation");
+                spinnerArray.clear();
+                spinnerArray.add("Plowing");
+                spinnerArray.add("Harrowing");
+                spinnerArray.add("Levelling");
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                desc_choice.setAdapter(adapter);
+
+                title2.setVisibility(View.VISIBLE);
+                desc.setVisibility(View.GONE);
+                desc_choice.setVisibility(View.VISIBLE);
+
+                checker=1;
+
+            }
+        });
+
+        crop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                icon=2;
+                task_title.setText("Crop Operation");
+                spinnerArray.clear();
+                spinnerArray.add("Transplanting");
+                spinnerArray.add("Replanting");
+                spinnerArray.add("Pulling of Seedlings");
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                desc_choice.setAdapter(adapter);
+
+                title2.setVisibility(View.VISIBLE);
+                desc.setVisibility(View.GONE);
+                desc_choice.setVisibility(View.VISIBLE);
+
+                checker=1;
+
+            }
+        });
+
+        care.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                icon=3;
+                task_title.setText("Water and Maintenance");
+                spinnerArray.clear();
+                spinnerArray.add("Irrigation");
+                spinnerArray.add("Water Pump");
+                spinnerArray.add("Weeding");
+                spinnerArray.add("Equipment Repair");
+
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                desc_choice.setAdapter(adapter);
+
+                title2.setVisibility(View.VISIBLE);
+                desc.setVisibility(View.GONE);
+                desc_choice.setVisibility(View.VISIBLE);
+
+                checker=1;
+
+            }
+        });
+
+        pest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                icon=4;
+                task_title.setText("Pest and Disease Control");
+                spinnerArray.clear();
+                spinnerArray.add("Molluscicide");
+                spinnerArray.add("Pesticide");
+                spinnerArray.add("Herbicide");
+                spinnerArray.add("Fungicide");
+
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                desc_choice.setAdapter(adapter);
+
+                title2.setVisibility(View.VISIBLE);
+                desc.setVisibility(View.GONE);
+                desc_choice.setVisibility(View.VISIBLE);
+
+                checker=1;
+
+            }
+        });
+
+        harvest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                icon=5;
+                task_title.setText("Harvest Management");
+                spinnerArray.clear();
+                spinnerArray.add("Reaping");
+                spinnerArray.add("Threshing");
+                spinnerArray.add("Transportation");
+                spinnerArray.add("Drying");
+
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                desc_choice.setAdapter(adapter);
+
+                title2.setVisibility(View.VISIBLE);
+                desc.setVisibility(View.GONE);
+                desc_choice.setVisibility(View.VISIBLE);
+
+                checker=1;
+
+            }
+        });
+
+        others.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                icon=6;
+                task_title.setText("Others");
+
+                title2.setVisibility(View.VISIBLE);
+                desc.setVisibility(View.VISIBLE);
+                desc_choice.setVisibility(View.GONE);
+
+                checker=0;
+
+            }
+        });
+
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +287,14 @@ public class AddEvent extends AppCompatActivity {
                 end_date=pane2.getText().toString();
                 start_time=time.getText().toString();
 
-                title=desc.getText().toString();
+                if(checker==1)
+                {
+                    title=desc_choice.getSelectedItem().toString();
+                }
+                else{
+                    title=desc.getText().toString();
+                }
+
 
                 if(start_date.equals(end_date))
                 {
@@ -164,7 +350,7 @@ public class AddEvent extends AppCompatActivity {
                     int dd_id=Integer.parseInt(d_id);
                     dd_id=dd_id+1;
                     //Message.message(getApplicationContext(),f_timestamp+" "+millisSinceEpoch);
-                    helper.insertData(millisSinceEpoch,mPickedColor,title,start_date,start_time,dd_id);
+                    helper.insertData(millisSinceEpoch,mPickedColor,title,start_date,start_time,dd_id,icon);
 
                 }
                 else
@@ -235,7 +421,7 @@ public class AddEvent extends AppCompatActivity {
                             Instant instant = zdt.toInstant() ;
                             long millisSinceEpoch = instant.toEpochMilli() ;
                             //ccc=ccc+f_timestamp+" "+millisSinceEpoch+"\n";
-                           helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id);
+                           helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id,icon);
                         }
                         //Message.message(getApplicationContext(),ccc);
 
@@ -271,7 +457,7 @@ public class AddEvent extends AppCompatActivity {
                             Instant instant = zdt.toInstant() ;
                             long millisSinceEpoch = instant.toEpochMilli() ;
                             //ccc=ccc+f_timestamp+" "+millisSinceEpoch+"\n";
-                            helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id);
+                            helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id,icon);
                         }
                     }
 

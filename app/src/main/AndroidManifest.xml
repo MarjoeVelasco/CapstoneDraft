@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Weather_pane"></activity>
+        <activity android:name=".AddCrop"></activity>
+        <activity android:name=".Weather_pane" />
         <activity android:name=".Event_pane2" />
         <activity android:name=".Event_list" />
         <activity android:name=".Menu" />

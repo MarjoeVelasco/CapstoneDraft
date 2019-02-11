@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public class Menu extends AppCompatActivity {
 
-    Button calendar,events,weather,record_log,profile;
+    Button calendar,events,weather,record_log,profile,crops;
     boolean doubleBackToExitPressedOnce = false;
 
     @Override
@@ -18,6 +18,7 @@ public class Menu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
+        crops= (Button)findViewById(R.id.crops);
         calendar= (Button)findViewById(R.id.calendar);
         events= (Button)findViewById(R.id.events);
         weather= (Button)findViewById(R.id.weather);
@@ -47,6 +48,15 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Menu.this,Weather_pane.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        crops.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Menu.this,AddCrop.class);
                 startActivity(intent);
                 finish();
             }

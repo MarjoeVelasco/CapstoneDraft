@@ -145,7 +145,9 @@ public class MainActivity extends AppCompatActivity {
                             String date_id=String.format(dbres2.getString(6));
                             String color2=String.format(dbres2.getString(2));
                             int color=Integer.parseInt(color2);
-                            dataModels.add(new DataModel(event_name, event_time, event_id,date_id,color));
+                            String temp_icon=String.format(dbres2.getString(7));
+                            int icon=Integer.parseInt(temp_icon);
+                            dataModels.add(new DataModel(event_name, event_time, event_id,date_id,color,icon));
 
 
 
