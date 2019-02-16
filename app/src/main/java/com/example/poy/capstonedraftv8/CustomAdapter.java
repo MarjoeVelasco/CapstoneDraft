@@ -25,6 +25,9 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
         TextView name;
         TextView time;
         ImageView info;
+        TextView crop;
+        ImageView crop_info;
+
     }
 
 
@@ -84,7 +87,10 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
             viewHolder.color=(TextView)convertView.findViewById(R.id.color);
             viewHolder.name = (TextView) convertView.findViewById(R.id.name);
             viewHolder.time = (TextView) convertView.findViewById(R.id.time);
+            viewHolder.crop = (TextView) convertView.findViewById(R.id.crop);
             viewHolder.info = (ImageView) convertView.findViewById(R.id.info);
+            viewHolder.crop_info = (ImageView) convertView.findViewById(R.id.crop_info);
+
 
             result=convertView;
 
@@ -101,6 +107,18 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
         viewHolder.color.setBackgroundColor(dataModel.getColor());
         viewHolder.name.setText("\t"+dataModel.getEvent_name());
         viewHolder.time.setText("\t"+dataModel.getEvent_time());
+
+        viewHolder.crop.setText("\t"+dataModel.getCrop_name()+" "+dataModel.getVariety());
+        String crop_type=dataModel.getCrop();
+        if(crop_type.equalsIgnoreCase("rice"))
+        {
+            viewHolder.crop_info.setImageResource(R.drawable.ricev2);
+        }
+        else if (crop_type.equalsIgnoreCase("onion"))
+        {
+            viewHolder.crop_info.setImageResource(R.drawable.onionv2);
+        }
+
         int a = dataModel.getIcon();
 
         if(a==1)

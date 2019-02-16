@@ -11,8 +11,13 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 
@@ -23,15 +28,20 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Event_pane extends AppCompatActivity {
 
     myDbAdapter helper;
     TextView pane,pane2,r1,time,desc;
-    TextView btn;
+    TextView btn,task_title;
     Button save,del;
+    ImageButton landPrep,crop,care,pest,harvest,others;
+    Spinner desc_choice,crop_name;
+    RadioGroup crop_type;
+    RadioButton onion,rice;
 
     String id="";
     String color="";
@@ -39,8 +49,14 @@ public class Event_pane extends AppCompatActivity {
     String event_date="";
     String event_time="";
 
+    String crop_variety_checker="";
+
     String event_date_start="";
     String event_date_end="";
+
+    int checker=1;
+    int icon=1;
+
     int flag;
 
     public static String title;
@@ -65,11 +81,35 @@ public class Event_pane extends AppCompatActivity {
         time = (TextView) findViewById(R.id.time);
         r1 = (TextView) findViewById(R.id.r1);
         desc = (TextView) findViewById(R.id.desc2);
+        task_title = (TextView)findViewById(R.id.task_title);
+
+        landPrep = (ImageButton) findViewById(R.id.landPrep);
+        crop = (ImageButton) findViewById(R.id.crop);
+        care = (ImageButton) findViewById(R.id.care);
+        pest = (ImageButton) findViewById(R.id.pest);
+        harvest = (ImageButton) findViewById(R.id.harvest);
+        others = (ImageButton) findViewById(R.id.others);
+
+        desc_choice = (Spinner)findViewById(R.id.desc_choice);
+        crop_name = (Spinner)findViewById(R.id.crop_name);
+
+        crop_type = (RadioGroup)findViewById(R.id.crop_type);
+
+        onion = (RadioButton)findViewById(R.id.onion);
+        rice = (RadioButton)findViewById(R.id.rice);
 
         Intent intent = getIntent();
 //Get the USERNAME passed from IntentExampleActivity
         String event_id = (String) intent.getSerializableExtra("event_id");
         String date_id = (String)intent.getSerializableExtra("date_id");
+
+
+
+
+        final  List<String> spinnerArrayCrop =  new ArrayList<String>();
+
+        final ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, spinnerArrayCrop);
 
         Cursor dbres = helper.getEventInfo(date_id);
 
@@ -138,8 +178,224 @@ public class Event_pane extends AppCompatActivity {
             }
         });
 
+        final List<String> spinnerArray =  new ArrayList<String>();
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, spinnerArray);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        desc_choice.setAdapter(adapter);
+
+        desc.setVisibility(View.GONE);
+        desc_choice.setVisibility(View.VISIBLE);
 
 
+        landPrep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                icon=1;
+
+                task_title.setText("Land Preparation");
+                spinnerArray.clear();
+                spinnerArray.add("Plowing");
+                spinnerArray.add("Harrowing");
+                spinnerArray.add("Levelling");
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                desc_choice.setAdapter(adapter);
+
+                desc.setVisibility(View.GONE);
+                desc_choice.setVisibility(View.VISIBLE);
+
+                checker=1;
+
+            }
+        });
+
+        crop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                icon=2;
+                task_title.setText("Crop Operation");
+               spinnerArray.clear();
+                spinnerArray.add("Transplanting");
+                spinnerArray.add("Replanting");
+                spinnerArray.add("Pulling of Seedlings");
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                desc_choice.setAdapter(adapter);
+
+
+                desc.setVisibility(View.GONE);
+                desc_choice.setVisibility(View.VISIBLE);
+
+                checker=1;
+
+            }
+        });
+
+        care.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                icon=3;
+                task_title.setText("Water and Maintenance");
+                spinnerArray.clear();
+                spinnerArray.add("Irrigation");
+                spinnerArray.add("Water Pump");
+                spinnerArray.add("Weeding");
+                spinnerArray.add("Equipment Repair");
+
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                desc_choice.setAdapter(adapter);
+
+                desc.setVisibility(View.GONE);
+                desc_choice.setVisibility(View.VISIBLE);
+
+                checker=1;
+
+            }
+        });
+
+        pest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                icon=4;
+                task_title.setText("Pest and Disease Control");
+                spinnerArray.clear();
+                spinnerArray.add("Molluscicide");
+                spinnerArray.add("Pesticide");
+                spinnerArray.add("Herbicide");
+                spinnerArray.add("Fungicide");
+
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                desc_choice.setAdapter(adapter);
+
+                desc.setVisibility(View.GONE);
+               desc_choice.setVisibility(View.VISIBLE);
+
+                checker=1;
+
+            }
+        });
+
+        harvest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                icon=5;
+                task_title.setText("Harvest Management");
+               spinnerArray.clear();
+                spinnerArray.add("Reaping");
+                spinnerArray.add("Threshing");
+                spinnerArray.add("Transportation");
+                spinnerArray.add("Drying");
+
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                desc_choice.setAdapter(adapter);
+
+                desc.setVisibility(View.GONE);
+               desc_choice.setVisibility(View.VISIBLE);
+
+                checker=1;
+
+            }
+        });
+
+        others.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                icon=6;
+                task_title.setText("Others");
+
+
+                desc.setVisibility(View.VISIBLE);
+                desc_choice.setVisibility(View.GONE);
+
+                checker=0;
+
+            }
+        });
+
+
+        rice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                spinnerArrayCrop.clear();
+                String crop_type_choice="rice";
+                Cursor dbres15 = helper.getAllDataCropSpes(crop_type_choice);
+                while (dbres15.moveToNext()) {
+
+                    String crop = String.format(dbres15.getString(1));
+                    String variety2 = String.format(dbres15.getString(3));
+
+
+                    spinnerArrayCrop.add(crop + " (" + variety2 + ")");
+
+
+                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    crop_name.setAdapter(adapter2);
+
+
+                }
+            }
+        });
+
+        onion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                spinnerArrayCrop.clear();
+                String crop_type_choice2="onion";
+                Cursor dbres16 = helper.getAllDataCropSpes(crop_type_choice2);
+                while (dbres16.moveToNext()) {
+
+                    String crop = String.format(dbres16.getString(1));
+                    String variety2 = String.format(dbres16.getString(3));
+
+
+                    spinnerArrayCrop.add(crop + " (" + variety2 + ")");
+
+
+                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    crop_name.setAdapter(adapter2);
+
+
+                }
+
+            }
+        });
+
+        /*crop_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+
+                    case R.id.rice:
+
+
+                        break;
+
+                    case R.id.onion:
+
+                        break;
+
+
+
+
+                }
+            }
+
+        });*/
 
 
 
@@ -148,7 +404,11 @@ public class Event_pane extends AppCompatActivity {
         {
             flag=1;
 
-
+            int icon_choice=0;
+            String crop_type="";
+            String crop_name2="";
+            String variety="";
+            String crop_id="";
             while (dbres.moveToNext()){
 
                 id= String.format(dbres.getString(6));
@@ -156,15 +416,210 @@ public class Event_pane extends AppCompatActivity {
                 event_name = String.format(dbres.getString(3));
                 event_date = String.format(dbres.getString(4));
                 event_time = String.format(dbres.getString(5));
+                icon_choice=Integer.parseInt(String.format(dbres.getString(7)));
+                crop_id=String.format(dbres.getString(8));
+
+                Cursor dbres8 = helper.getCropData(crop_id);
+                while (dbres8.moveToNext()) {
+
+                    crop_type=String.format(dbres8.getString(2));
+                    crop_name2=String.format(dbres8.getString(1));
+                    variety=String.format(dbres8.getString(3));
+
+                }
+
+                crop_variety_checker=crop_name2 + " (" + variety + ")";
+                spinnerArrayCrop.add(crop_name2 + " (" + variety + ")");
+
 
             }
 
+
+
+
+            Message.message(getApplicationContext(),crop_type);
+
+            if(crop_type.equalsIgnoreCase("rice"))
+            {
+                rice.setChecked(true);
+                onion.setChecked(false);
+                String crop_type_choice="rice";
+                Cursor dbres12 = helper.getAllDataCropSpes(crop_type_choice);
+                while (dbres12.moveToNext()) {
+
+                    String crop = String.format(dbres12.getString(1));
+                    String variety2 = String.format(dbres12.getString(3));
+
+                    if(!crop_variety_checker.equals(crop + " (" + variety2 + ")")) {
+                        spinnerArrayCrop.add(crop + " (" + variety2 + ")");
+                    }
+
+                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    crop_name.setAdapter(adapter2);
+
+
+                }
+            }
+            else if(crop_type.equalsIgnoreCase("onion"))
+            {
+                rice.setChecked(false);
+                onion.setChecked(true);
+
+                String crop_type_choice="onion";
+
+                Cursor dbres17 = helper.getAllDataCropSpes(crop_type_choice);
+                while (dbres17.moveToNext()) {
+
+                    String crop = String.format(dbres17.getString(1));
+                    String variety2 = String.format(dbres17.getString(3));
+
+                    if(!crop_variety_checker.equals(crop + " (" + variety2 + ")")) {
+                        spinnerArrayCrop.add(crop + " (" + variety2 + ")");
+                    }
+
+                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    crop_name.setAdapter(adapter2);
+
+
+                }
+
+
+            }
             pane.setText(event_date);
             r1.setBackgroundColor(Integer.parseInt(color));
             mPickedColor=Integer.parseInt(color);
             pane2.setText(event_date);
             time.setText(event_time);
             desc.setText(event_name);
+
+            Message.message(getApplicationContext(),icon_choice+"");
+
+            spinnerArray.add(event_name);
+            switch (icon_choice)
+            {
+                case 1:
+                    icon=1;
+                    checker=1;
+                    task_title.setText("Land Preparation");
+                    String[] event1 = new String[3];
+                    event1[0]="Plowing";
+                    event1[1]="Harrowing";
+                    event1[2]="Levelling";
+                    for(int i=0;i<event1.length;i++)
+                    {
+                        if(!event_name.equalsIgnoreCase(event1[i]))
+                        {
+                            spinnerArray.add(event1[i]);
+                        }
+                    }
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    desc_choice.setAdapter(adapter);
+                break;
+
+                case 2:
+                    icon=2;
+                    checker=1;
+                    task_title.setText("Crop Operation");
+                    String[] event2 = new String[3];
+                    event2[0]="Transplanting";
+                    event2[1]="Replanting";
+                    event2[2]="Pulling of Seedlings";
+                    for(int i=0;i<event2.length;i++)
+                    {
+                        if(!event_name.equalsIgnoreCase(event2[i]))
+                        {
+                            spinnerArray.add(event2[i]);
+                        }
+                    }
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    desc_choice.setAdapter(adapter);
+                    break;
+
+                case 3:
+                    icon=3;
+                    checker=1;
+                    task_title.setText("Water and Maintenance");
+                    String[] event3 = new String[4];
+                    event3[0]="Irrigation";
+                    event3[1]="Water";
+                    event3[2]="Weeding";
+                    event3[3]="Equipment Repair";
+                    for(int i=0;i<event3.length;i++)
+                    {
+                        if(!event_name.equalsIgnoreCase(event3[i]))
+                        {
+                            spinnerArray.add(event3[i]);
+                        }
+                    }
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    desc_choice.setAdapter(adapter);
+                    break;
+
+                case 4:
+                    icon=4;
+                    checker=1;
+                    task_title.setText("Pest and Disease Control");
+                    String[] event4 = new String[4];
+                    event4[0]="Molluscicide";
+                    event4[1]="Pesticide";
+                    event4[2]="Herbicide";
+                    event4[3]="Fungicide";
+                    for(int i=0;i< event4.length;i++)
+                    {
+                        String check = event4[i];
+                        if(!check.equals(event_name))
+                        {
+                            spinnerArray.add(event4[i]);
+                        }
+
+                    }
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    desc_choice.setAdapter(adapter);
+                    break;
+
+                case 5:
+                    icon=5;
+                    checker=1;
+                    task_title.setText("Harvest Management");
+
+                        String[] event5 = new String[4];
+                        event5[0] = "Reaping";
+                        event5[1] = "Threshing";
+                        event5[2] = "Transportation";
+                        event5[3] = "Drying";
+                        for (int i = 0; i <event5.length; i++) {
+
+                                String check = event5[i];
+                            if (!check.equals(event_name)) {
+                                spinnerArray.add(event5[i]);
+                            }
+                        }
+
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    desc_choice.setAdapter(adapter);
+                    break;
+
+                case 6:
+                    icon=6;
+                    task_title.setText("Others");
+                    desc.setVisibility(View.VISIBLE);
+                    desc_choice.setVisibility(View.GONE);
+                    checker=0;
+                    break;
+            }
+
+
+
+
+
+
 
 
         }
@@ -181,6 +636,7 @@ public class Event_pane extends AppCompatActivity {
                 event_name = String.format(dbres2.getString(3));
                 event_date_start = String.format(dbres2.getString(4));
                 event_time = String.format(dbres2.getString(5));
+
 
 
             }
@@ -201,6 +657,13 @@ public class Event_pane extends AppCompatActivity {
             time.setText(event_time);
             desc.setText(event_name);
 
+            spinnerArray.add(event_name);
+
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            desc_choice.setAdapter(adapter);
+
 
 
 
@@ -215,7 +678,16 @@ public class Event_pane extends AppCompatActivity {
                 end_date=pane2.getText().toString();
                 start_time=time.getText().toString();
 
-                title=desc.getText().toString();
+
+
+                if(checker==0)
+                {
+                    title=desc.getText().toString();
+                }
+                else
+                {
+                    title=desc_choice.getSelectedItem().toString();
+                }
 
                 if(start_date.equals(end_date))
                 {
@@ -225,7 +697,11 @@ public class Event_pane extends AppCompatActivity {
 
                     long millisSinceEpoch =epochConverter(f_timestamp);
 
-                    int a= helper.updateEvent( millisSinceEpoch, mPickedColor,title,start_date,start_time,id);
+                    String crop_name1 = crop_name.getSelectedItem().toString();
+
+                    int crop_id=getCropId(crop_name1);
+
+                    int a= helper.updateEvent( millisSinceEpoch, mPickedColor,title,start_date,start_time,id,icon,crop_id);
                     if(a<=0)
                     {
                         Message.message(getApplicationContext(),"Unsuccessful");
@@ -299,7 +775,7 @@ public class Event_pane extends AppCompatActivity {
 
                                 long millisSinceEpoch =epochConverter(f_timestamp);
                                 //ccc=ccc+f_timestamp+" "+millisSinceEpoch+"\n";
-                                helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id,1);
+                                helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id,1,1);
                             }
                             //Message.message(getApplicationContext(),ccc);
 
@@ -326,7 +802,7 @@ public class Event_pane extends AppCompatActivity {
 
                                 long millisSinceEpoch =epochConverter(f_timestamp);
 
-                                helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id,1);
+                                helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id,1,1);
                             }
                         }
 
@@ -363,6 +839,27 @@ public class Event_pane extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    public int getCropId(String crop){
+
+        String temp1 = crop.replace(")","");
+        String temp2 = temp1.replace("(","-");
+        String[] temp3 = temp2.split("-");
+        String aa = temp3[0];
+        aa=aa.replace(" ","");
+        Cursor dbres5 = helper.getCropId(aa);
+
+        String temp_id="";
+        while (dbres5.moveToNext()) {
+
+            temp_id=String.format(dbres5.getString(0));
+
+        }
+        int a = Integer.parseInt(temp_id);
+
+        return a;
 
     }
 

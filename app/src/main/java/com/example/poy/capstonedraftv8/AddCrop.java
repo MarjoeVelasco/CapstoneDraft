@@ -1,5 +1,6 @@
 package com.example.poy.capstonedraftv8;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -165,5 +166,13 @@ public class AddCrop extends AppCompatActivity {
     {
         String data = helper.getDataCrop();
         Message.message(this,data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent3 = new Intent(getApplicationContext(), Menu.class);
+        startActivity(intent3);
+        finish();
+
     }
 }

@@ -15,7 +15,7 @@ public class myDbAdapter {
     }
 
 
-
+//CROP DATA
     public long insertCrop(String crop_name,String crop, String variety)
     {
         SQLiteDatabase dbb = myhelper.getWritableDatabase();
@@ -45,7 +45,40 @@ public class myDbAdapter {
         return buffer.toString();
     }
 
-    public long insertData(long date_time,int color, String event,String date_start, String time_event, int date_id,int icon)
+
+    public Cursor getAllDataCropSpes(String crop) {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+
+        Cursor res = db.rawQuery("select * from "+ myDbHelper.TABLE_NAME2+" where "+ myDbHelper.CROP+"=?",new String []{crop});
+        return res;
+
+    }
+
+    public Cursor getCropId(String crop) {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+
+        Cursor res = db.rawQuery("select * from "+ myDbHelper.TABLE_NAME2+" where "+ myDbHelper.CROP_NAME+"=?",new String []{crop});
+        return res;
+
+    }
+
+    public Cursor getCropData(String crop) {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+
+        Cursor res = db.rawQuery("select * from "+ myDbHelper.TABLE_NAME2+" where "+ myDbHelper.ID2+"=?",new String []{crop});
+        return res;
+
+    }
+
+
+
+
+
+
+
+//EVENT DATA
+
+    public long insertData(long date_time,int color, String event,String date_start, String time_event, int date_id,int icon,int crop_id)
     {
         SQLiteDatabase dbb = myhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -56,6 +89,7 @@ public class myDbAdapter {
         contentValues.put(myDbHelper.TIME_EVENT, time_event);
         contentValues.put(myDbHelper.DATE_ID, date_id);
         contentValues.put(myDbHelper.ICON, icon);
+        contentValues.put(myDbHelper.CROP_ID, crop_id);
         long id = dbb.insert(myDbHelper.TABLE_NAME, null , contentValues);
         return id;
     }
@@ -126,7 +160,7 @@ public class myDbAdapter {
     public String getData()
     {
         SQLiteDatabase db = myhelper.getWritableDatabase();
-        String[] columns = {myDbHelper.ID, myDbHelper.DATE_TIME, myDbHelper.COLOR, myDbHelper.EVENT, myDbHelper.DATE_START, myDbHelper.TIME_EVENT, myDbHelper.DATE_ID};
+        String[] columns = {myDbHelper.ID, myDbHelper.DATE_TIME, myDbHelper.COLOR, myDbHelper.EVENT, myDbHelper.DATE_START, myDbHelper.TIME_EVENT, myDbHelper.DATE_ID,myDbHelper.CROP_ID};
         Cursor cursor =db.query(myDbHelper.TABLE_NAME,columns,null,null,null,null,null);
         StringBuffer buffer= new StringBuffer();
         while (cursor.moveToNext())
@@ -138,7 +172,8 @@ public class myDbAdapter {
             String  date_start =cursor.getString(cursor.getColumnIndex(myDbHelper.DATE_START));
             String  time_event =cursor.getString(cursor.getColumnIndex(myDbHelper.TIME_EVENT));
             String  date_id =cursor.getString(cursor.getColumnIndex(myDbHelper.DATE_ID));
-            buffer.append(cid+ "   " + date_time + "   " + color +"  " + event +"  "+date_start+" "+time_event+" "+date_id+"\n");
+            String  crop_id =cursor.getString(cursor.getColumnIndex(myDbHelper.CROP_ID));
+            buffer.append(cid+ "   " + date_time + "   " + color +"  " + event +"  "+date_start+" "+time_event+" "+date_id+" "+crop_id+"\n");
         }
         return buffer.toString();
     }
@@ -152,7 +187,7 @@ public class myDbAdapter {
         return  count;
     }
 
-    public int updateEvent(long date_time,int color, String event, String date_start, String time_event, String date_id)
+    public int updateEvent(long date_time,int color, String event, String date_start, String time_event, String date_id,int icon,int crop_id)
     {
         SQLiteDatabase db = myhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -161,6 +196,8 @@ public class myDbAdapter {
         contentValues.put(myDbHelper.EVENT, event);
         contentValues.put(myDbHelper.DATE_START, date_start);
         contentValues.put(myDbHelper.TIME_EVENT, time_event);
+        contentValues.put(myDbHelper.ICON, icon);
+        contentValues.put(myDbHelper.CROP_ID, crop_id);
         String[] whereArgs= {date_id};
         int count =db.update(myDbHelper.TABLE_NAME,contentValues, myDbHelper.DATE_ID+" = ?",whereArgs );
         return count;
@@ -180,8 +217,9 @@ public class myDbAdapter {
         private static final String TIME_EVENT= "time_event";    // Column III
         private static final String DATE_ID= "date_id";    // Column III
         private static final String ICON = "icon";
+        private static final String CROP_ID = "crop_id";
         private static final String CREATE_TABLE = "CREATE TABLE "+TABLE_NAME+
-                " ("+ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+DATE_TIME+" BIGINT(99) ,"+ COLOR+" INTEGER,"+ EVENT+" VARCHAR(225),"+ DATE_START+" VARCHAR(225),"+ TIME_EVENT+" VARCHAR(225),"+ DATE_ID+" INTEGER,"+ ICON+" INTEGER);";
+                " ("+ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+DATE_TIME+" BIGINT(99) ,"+ COLOR+" INTEGER,"+ EVENT+" VARCHAR(225),"+ DATE_START+" VARCHAR(225),"+ TIME_EVENT+" VARCHAR(225),"+ DATE_ID+" INTEGER,"+ ICON+" INTEGER,"+ CROP_ID+" INTEGER);";
 
 
         private static final String DROP_TABLE ="DROP TABLE IF EXISTS "+TABLE_NAME;

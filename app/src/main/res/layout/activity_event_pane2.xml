@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="Update"
             app:layout_column="1"
-            app:layout_row="10" />
+            app:layout_row="14" />
 
         <TextView
             android:id="@+id/textView10"
@@ -139,6 +139,14 @@
             app:layout_column="0"
             app:layout_row="8" />
 
+        <TextView
+            android:id="@+id/task_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Land Preparation"
+            app:layout_column="1"
+            app:layout_row="8" />
+
         <EditText
             android:id="@+id/desc2"
             android:layout_width="wrap_content"
@@ -147,7 +155,15 @@
             android:ems="10"
             android:inputType="textPersonName"
             app:layout_column="1"
-            app:layout_row="8" />
+            app:layout_row="9" />
+
+        <Spinner
+            android:id="@+id/desc_choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            app:layout_column="1"
+            app:layout_row="10" />
 
         <TextView
             android:id="@+id/r1"
@@ -161,25 +177,52 @@
             tools:layout_editor_absoluteY="383dp" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/textView32"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Crop:"
             app:layout_column="0"
-            app:layout_row="9" />
+            app:layout_row="11" />
 
-        <TextView
-            android:id="@+id/textView25"
+        <RadioGroup
+
+            android:id="@+id/crop_type"
             android:layout_width="wrap_content"
-            android:layout_height="98dp"
+            android:layout_height="wrap_content"
             app:layout_column="1"
-            app:layout_row="9" />
+            app:layout_row="11"
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="93dp"
+            <RadioButton
+                android:id="@+id/rice"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:checked="true"
+                app:layout_column="1"
+                android:text="Rice" />
+
+            <RadioButton
+                android:id="@+id/onion"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_column="1"
+                android:text="Onion" />
+        </RadioGroup>
+
+
+
+        <Spinner
+            android:id="@+id/crop_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_column="0"
-            app:layout_row="10" />
+            app:layout_column="1"
+            app:layout_row="12" />
+
+
+
+
     </android.support.v7.widget.GridLayout>
 
     <LinearLayout

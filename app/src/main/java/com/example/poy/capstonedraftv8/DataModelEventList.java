@@ -9,9 +9,12 @@ public class DataModelEventList {
     String date_id;
     int color;
     int icon;
+    String crop;
+    String crop_name;
+    String variety;
 
 
-    public DataModelEventList( String event_name,String event_time,String event_date,String event_id,String date_id,int color,int icon)
+    public DataModelEventList( String event_name,String event_time,String event_date,String event_id,String date_id,int color,int icon,String crop,String crop_name,String variety)
     {
 
         this.event_name=event_name;
@@ -21,6 +24,9 @@ public class DataModelEventList {
         this.date_id=date_id;
         this.color=color;
         this.icon=icon;
+        this.crop=crop;
+        this.crop_name=crop_name;
+        this.variety=variety;
     }
 
 
@@ -52,6 +58,23 @@ public class DataModelEventList {
     public int getColor(){return color;}
 
     public int getIcon(){return icon;}
+
+    public String getCrop()
+    {
+        return crop;
+    }
+
+    public String getCrop_name()
+    {
+        return crop_name;
+    }
+
+    public String getVariety()
+    {
+        return variety;
+    }
+
+
 
 
 }

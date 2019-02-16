@@ -137,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
                     else {
                         String event;
                         String time_event="";
+                        String crop="";
+                        String crop_name="";
+                        String variety="";
                         while (dbres2.moveToNext()) {
 
                             String event_name=String.format(dbres2.getString(3));
@@ -147,7 +150,18 @@ public class MainActivity extends AppCompatActivity {
                             int color=Integer.parseInt(color2);
                             String temp_icon=String.format(dbres2.getString(7));
                             int icon=Integer.parseInt(temp_icon);
-                            dataModels.add(new DataModel(event_name, event_time, event_id,date_id,color,icon));
+
+                            String temp_crop_id=String.format(dbres2.getString(8));
+                            Cursor dbres8 = helper.getCropData(temp_crop_id);
+                            while (dbres8.moveToNext()) {
+
+                                crop=String.format(dbres8.getString(2));
+                                crop_name=String.format(dbres8.getString(1));
+                                variety=String.format(dbres8.getString(3));
+
+                            }
+
+                            dataModels.add(new DataModel(event_name, event_time, event_id,date_id,color,icon,crop,crop_name,variety));
 
 
 

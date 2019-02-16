@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -42,7 +44,11 @@ public class AddEvent extends AppCompatActivity {
     TextView pane,pane2,r1,time,desc;
     TextView task_title,title2;
     Button save,cancel;
-    Spinner desc_choice;
+    RadioGroup crop_type;
+    RadioButton onion,rice;
+    String crop_type_choice="rice";
+
+    Spinner desc_choice,crop_name;
     ImageButton landPrep,crop,care,pest,harvest,others;
     int checker=1;
     int icon=1;
@@ -84,6 +90,12 @@ public class AddEvent extends AppCompatActivity {
         others = (ImageButton) findViewById(R.id.others);
 
         desc_choice = (Spinner)findViewById(R.id.desc_choice);
+        crop_name = (Spinner)findViewById(R.id.crop_name);
+
+        crop_type = (RadioGroup)findViewById(R.id.crop_type);
+
+        onion = (RadioButton)findViewById(R.id.onion);
+        rice = (RadioButton)findViewById(R.id.rice);
    //     btn = (TextView) findViewById(R.id.textView3);
         Intent intent = getIntent();
 //Get the USERNAME passed from IntentExampleActivity
@@ -91,6 +103,128 @@ public class AddEvent extends AppCompatActivity {
 //Set text for greetMsg TextView
         pane.setText(date_event);
         pane2.setText(date_event);
+
+
+
+        final  List<String> spinnerArrayCrop =  new ArrayList<String>();
+
+        final ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, spinnerArrayCrop);
+
+        Cursor dbres4 = helper.getAllDataCropSpes(crop_type_choice);
+        if(dbres4.getCount() == 0)
+        {
+
+            spinnerArrayCrop.clear();
+            spinnerArrayCrop.add("No Crops Yet");
+
+            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            crop_name.setAdapter(adapter2);
+
+        }
+        else {
+            spinnerArrayCrop.clear();
+            while (dbres4.moveToNext()) {
+
+                String crop = String.format(dbres4.getString(1));
+                String variety = String.format(dbres4.getString(3));
+
+                spinnerArrayCrop.add(crop + " (" + variety + ")");
+
+
+            }
+            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            crop_name.setAdapter(adapter2);
+
+        }
+
+        crop_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+
+                    case R.id.rice:
+                        spinnerArrayCrop.clear();
+                        crop_type_choice="rice";
+                        Cursor dbres2 = helper.getAllDataCropSpes(crop_type_choice);
+                        if(dbres2.getCount() == 0)
+                        {
+
+
+                            spinnerArrayCrop.add("No Crops Yet");
+
+                            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                            crop_name.setAdapter(adapter2);
+
+                        }
+                        else {
+                            spinnerArrayCrop.clear();
+                            while (dbres2.moveToNext()) {
+
+                                String crop = String.format(dbres2.getString(1));
+                                String variety = String.format(dbres2.getString(3));
+
+                                spinnerArrayCrop.add(crop + " (" + variety + ")");
+
+
+                            }
+                            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                            crop_name.setAdapter(adapter2);
+
+                        }
+
+                        break;
+
+                    case R.id.onion:
+                        crop_type_choice="onion";
+                        spinnerArrayCrop.clear();
+                        Cursor dbres3 = helper.getAllDataCropSpes(crop_type_choice);
+                        if(dbres3.getCount() == 0)
+                        {
+
+
+                            spinnerArrayCrop.add("No Crops Yet");
+
+                            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                            crop_name.setAdapter(adapter2);
+
+                        }
+                        else {
+
+                            while (dbres3.moveToNext()) {
+
+                                String crop = String.format(dbres3.getString(1));
+                                String variety = String.format(dbres3.getString(3));
+
+                                spinnerArrayCrop.add(crop + " (" + variety + ")");
+
+
+                            }
+                            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                            crop_name.setAdapter(adapter2);
+
+                        }
+
+
+                        break;
+
+
+
+
+                }
+            }
+
+        });
+
+
+
+
+
 
         final  List<String> spinnerArray =  new ArrayList<String>();
         spinnerArray.add("Plowing");
@@ -287,6 +421,7 @@ public class AddEvent extends AppCompatActivity {
                 end_date=pane2.getText().toString();
                 start_time=time.getText().toString();
 
+
                 if(checker==1)
                 {
                     title=desc_choice.getSelectedItem().toString();
@@ -350,7 +485,11 @@ public class AddEvent extends AppCompatActivity {
                     int dd_id=Integer.parseInt(d_id);
                     dd_id=dd_id+1;
                     //Message.message(getApplicationContext(),f_timestamp+" "+millisSinceEpoch);
-                    helper.insertData(millisSinceEpoch,mPickedColor,title,start_date,start_time,dd_id,icon);
+                    String crop_name1 = crop_name.getSelectedItem().toString();
+
+                    int crop_id=getCropId(crop_name1);
+
+                    helper.insertData(millisSinceEpoch,mPickedColor,title,start_date,start_time,dd_id,icon,crop_id);
 
                 }
                 else
@@ -421,7 +560,12 @@ public class AddEvent extends AppCompatActivity {
                             Instant instant = zdt.toInstant() ;
                             long millisSinceEpoch = instant.toEpochMilli() ;
                             //ccc=ccc+f_timestamp+" "+millisSinceEpoch+"\n";
-                           helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id,icon);
+
+                            String crop_name1 = crop_name.getSelectedItem().toString();
+
+                            int crop_id=getCropId(crop_name1);
+
+                           helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id,icon,crop_id);
                         }
                         //Message.message(getApplicationContext(),ccc);
 
@@ -457,7 +601,12 @@ public class AddEvent extends AppCompatActivity {
                             Instant instant = zdt.toInstant() ;
                             long millisSinceEpoch = instant.toEpochMilli() ;
                             //ccc=ccc+f_timestamp+" "+millisSinceEpoch+"\n";
-                            helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id,icon);
+
+                            String crop_name1 = crop_name.getSelectedItem().toString();
+
+                            int crop_id=getCropId(crop_name1);
+
+                            helper.insertData(millisSinceEpoch,mPickedColor,title,aa,bb,dd_id,icon,crop_id);
                         }
                     }
 
@@ -519,6 +668,30 @@ public class AddEvent extends AppCompatActivity {
             }
         });
     }
+
+    public int getCropId(String crop){
+
+        String temp1 = crop.replace(")","");
+        String temp2 = temp1.replace("(","-");
+        String[] temp3 = temp2.split("-");
+        String aa = temp3[0];
+        aa=aa.replace(" ","");
+        Cursor dbres5 = helper.getCropId(aa);
+
+        String temp_id="";
+        while (dbres5.moveToNext()) {
+
+            temp_id=String.format(dbres5.getString(0));
+
+        }
+        int a = Integer.parseInt(temp_id);
+
+        return a;
+
+    }
+
+
+
     private Point getScreenSize(){
         WindowManager wm = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
