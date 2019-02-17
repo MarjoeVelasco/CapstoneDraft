@@ -70,6 +70,35 @@ public class myDbAdapter {
 
     }
 
+    public Cursor getCropChecker(String id) {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+
+        Cursor res = db.rawQuery("select * from "+ myDbHelper.TABLE_NAME+" where "+ myDbHelper.CROP_ID+"=?",new String []{id});
+        return res;
+
+    }
+
+    public  int deleteCrop(String id)
+    {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+        String[] whereArgs ={id};
+
+        int count =db.delete(myDbHelper.TABLE_NAME2 , myDbHelper.ID2+" = ?",whereArgs);
+        return  count;
+    }
+
+    public int updateCrop(String id,String crop_name,String crop, String variety)
+    {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(myDbHelper.CROP_NAME, crop_name);
+        contentValues.put(myDbHelper.CROP, crop);
+        contentValues.put(myDbHelper.VARIETY, variety);
+        String[] whereArgs= {id};
+        int count =db.update(myDbHelper.TABLE_NAME2,contentValues, myDbHelper.ID2+" = ?",whereArgs );
+        return count;
+    }
+
 
 
 

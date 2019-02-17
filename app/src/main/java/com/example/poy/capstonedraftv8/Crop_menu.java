@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class Crop_menu extends AppCompatActivity {
 
-    Button add_crop;
+    Button add_crop,rice,onion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +16,8 @@ public class Crop_menu extends AppCompatActivity {
         setContentView(R.layout.activity_crop_menu);
 
         add_crop = (Button)findViewById(R.id.add_crop);
+        rice = (Button)findViewById(R.id.rice);
+        onion = (Button)findViewById(R.id.onion);
 
 
 
@@ -26,6 +28,29 @@ public class Crop_menu extends AppCompatActivity {
                 startActivity(intent);
                 finish();
 
+            }
+        });
+
+        rice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),Crop_pane.class);
+                intent.putExtra("crop_type","rice");
+                intent.putExtra("status","failed");
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        onion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(),Crop_pane.class);
+                intent.putExtra("crop_type","onion");
+                intent.putExtra("status","failed");
+                startActivity(intent);
+                finish();
             }
         });
 

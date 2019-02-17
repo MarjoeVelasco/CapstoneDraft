@@ -1,6 +1,8 @@
 package com.example.poy.capstonedraftv8;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -133,25 +135,36 @@ public class AddCrop extends AppCompatActivity {
                 String crop_name_a = crop_name.getText().toString();
                 String crop_variety = variety.getSelectedItem().toString();
 
-
-                try
+                Cursor dbres = helper.getCropId(crop_name_a);
+                if(dbres.getCount() >=1)
                 {
-                    long result = helper.insertCrop(crop_name_a,crop_type,crop_variety);
 
-                    if(result != -1)
+                    Snackbar.make(findViewById(android.R.id.content),"Crop name already exists",Snackbar.LENGTH_SHORT).show();
+
+                }
+                else
+                {
+                    try
                     {
-                        Message.message(getApplicationContext(), "Crop Added");
-                        crop_name.setText(null);
-                        crop.check(R.id.rice);
-                    }
+                        long result = helper.insertCrop(crop_name_a,crop_type,crop_variety);
 
-                    else
-                        Message.message(getApplicationContext(), "Failed");
+                        if(result != -1)
+                        {
+                            Snackbar.make(findViewById(android.R.id.content),"Crop Added",Snackbar.LENGTH_SHORT).show();
+                            crop_name.setText(null);
+                            crop.check(R.id.rice);
+                        }
+
+                        else
+                            Snackbar.make(findViewById(android.R.id.content),"Failed",Snackbar.LENGTH_SHORT).show();
+                    }
+                    catch (Exception e)
+                    {
+                        Message.message(getApplicationContext(),e.getMessage());
+                    }
                 }
-                catch (Exception e)
-                {
-                    Message.message(getApplicationContext(),e.getMessage());
-                }
+
+
 
 
             }
