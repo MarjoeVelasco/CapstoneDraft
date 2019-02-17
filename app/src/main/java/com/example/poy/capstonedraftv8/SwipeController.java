@@ -1,5 +1,8 @@
 package com.example.poy.capstonedraftv8;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -157,14 +160,16 @@ class SwipeController extends ItemTouchHelper.Callback {
 
         RectF leftButton = new RectF(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + buttonWidthWithoutPadding, itemView.getBottom());
         p.setColor(Color.BLUE);
-        c.drawRoundRect(leftButton, corners, corners, p);
+        //c.drawRoundRect(leftButton, corners, corners, p);
+        c.drawRect(leftButton,p);
         drawText("edit", c, leftButton, p);
 
         RectF rightButton = new RectF(itemView.getRight() - buttonWidthWithoutPadding, itemView.getTop(), itemView.getRight(), itemView.getBottom());
         p.setColor(Color.RED);
-        c.drawRoundRect(rightButton, corners, corners, p);
-
+        c.drawRect(rightButton,p);
+        //c.drawRoundRect(rightButton, corners, corners, p);
         drawText("x", c, rightButton, p);
+
 
         buttonInstance = null;
         if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
