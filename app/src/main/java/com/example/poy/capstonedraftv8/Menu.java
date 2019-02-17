@@ -56,7 +56,7 @@ public class Menu extends AppCompatActivity {
         crops.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Menu.this,AddCrop.class);
+                Intent intent = new Intent(Menu.this,Crop_menu.class);
                 startActivity(intent);
                 finish();
             }
