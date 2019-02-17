@@ -39,10 +39,10 @@
                 android:drawableRight="@drawable/ic_arrow"
                 android:fontFamily="sans-serif-thin"
                 android:gravity="center"
-                android:padding="@dimen/default_gap"
+                android:padding="50dp"
                 android:text="Rice"
                 android:textColor="#fff"
-                android:textSize="50sp"
+                android:textSize="40sp"
                 android:typeface="monospace" />
 
             <Button
@@ -55,10 +55,10 @@
                 android:drawableRight="@drawable/ic_arrow"
                 android:fontFamily="sans-serif-thin"
                 android:gravity="center"
-                android:padding="@dimen/default_gap"
+                android:padding="50dp"
                 android:text="Onion"
                 android:textColor="#fff"
-                android:textSize="50sp" />
+                android:textSize="40sp" />
 
             <Button
                 android:id="@+id/add_crop"
