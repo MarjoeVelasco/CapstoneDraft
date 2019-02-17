@@ -182,7 +182,7 @@
             android:id="@+id/task_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LAND PREPARATION"
+            android:text="Land Preparation"
             app:layout_column="1"
             app:layout_row="8" />
 
@@ -202,12 +202,43 @@
             app:layout_column="0"
             app:layout_row="11" />
 
-        <Spinner
-            android:id="@+id/spinner3"
+        <RadioGroup
+
+            android:id="@+id/crop_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_column="1"
-            app:layout_row="11" />
+            app:layout_row="11"
+            android:layout_weight="1">
+
+            <RadioButton
+                android:id="@+id/rice"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:checked="true"
+                app:layout_column="1"
+                android:text="Rice" />
+
+            <RadioButton
+                android:id="@+id/onion"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_column="1"
+                android:text="Onion" />
+        </RadioGroup>
+
+
+
+        <Spinner
+            android:id="@+id/crop_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_column="1"
+            app:layout_row="12" />
+
+
 
     </android.support.v7.widget.GridLayout>
 

@@ -18,9 +18,9 @@ public class CustomAdapterListview extends RecyclerView.Adapter<CustomAdapterLis
     public ArrayList<DataModelEventList> events;
 
     public class PlayerViewHolder extends RecyclerView.ViewHolder {
-        private TextView name,date_event,time,color,month;
+        private TextView name,date_event,time,color,month,crop_name,variety;
         private LinearLayout contain;
-        private ImageView info;
+        private ImageView info,crop;
 
         public PlayerViewHolder(View view) {
             super(view);
@@ -28,9 +28,12 @@ public class CustomAdapterListview extends RecyclerView.Adapter<CustomAdapterLis
             date_event = (TextView) view.findViewById(R.id.date_event);
             time = (TextView) view.findViewById(R.id.time);
             color = (TextView) view.findViewById(R.id.color);
-            month = (TextView) view.findViewById(R.id.month);
             info = (ImageView)view.findViewById(R.id.info);
             contain = (LinearLayout) view.findViewById(R.id.contain);
+
+            crop_name = (TextView) view.findViewById(R.id.crop_name);
+            variety = (TextView) view.findViewById(R.id.variety);
+            crop = (ImageView)view.findViewById(R.id.crop);
 
 
 
@@ -61,6 +64,21 @@ public class CustomAdapterListview extends RecyclerView.Adapter<CustomAdapterLis
         holder.time.setText(player.getEvent_time());
         holder.time.setTextColor(Color.WHITE);
 
+        holder.crop_name.setText("Crop Name: \t"+player.getCrop_name());
+        holder.crop_name.setTextColor(Color.WHITE);
+
+        holder.variety.setText("Variety: \t\t\t\t"+player.getVariety());
+        holder.variety.setTextColor(Color.WHITE);
+        String crop_type=player.getCrop();
+
+        if(crop_type.equalsIgnoreCase("rice"))
+        {
+            holder.crop.setImageResource(R.drawable.ricev2);
+        }
+        else if (crop_type.equalsIgnoreCase("onion"))
+        {
+            holder.crop.setImageResource(R.drawable.onionv2);
+        }
 
         holder.contain.setBackgroundResource(R.mipmap.rice3);
 
@@ -102,7 +120,7 @@ public class CustomAdapterListview extends RecyclerView.Adapter<CustomAdapterLis
         int month=Integer.parseInt(temp_month[1]);
 
         //holder.month.setText(getMonthName(month));
-        holder.month.setTextColor(Color.WHITE);
+
 
 
     }

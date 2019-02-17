@@ -71,6 +71,9 @@ public class Event_list extends AppCompatActivity {
         else {
             String event;
             String time_event="";
+            String crop="";
+            String crop_name="";
+            String variety="";
             while (dbres.moveToNext()) {
 
                 String event_name=String.format(dbres.getString(3));
@@ -84,7 +87,17 @@ public class Event_list extends AppCompatActivity {
                 String temp_icon=String.format(dbres.getString(7));
                 int icon=Integer.parseInt(temp_icon);
 
-                    dataModels2.add(new DataModelEventList(event_name, event_time,event_date,event_id,date_id,color,icon));
+                String temp_crop_id=String.format(dbres.getString(8));
+                Cursor dbres8 = helper.getCropData(temp_crop_id);
+                while (dbres8.moveToNext()) {
+
+                    crop=String.format(dbres8.getString(2));
+                    crop_name=String.format(dbres8.getString(1));
+                    variety=String.format(dbres8.getString(3));
+
+                }
+
+                    dataModels2.add(new DataModelEventList(event_name, event_time,event_date,event_id,date_id,color,icon,crop,crop_name,variety));
 
             }
 
