@@ -216,6 +216,7 @@ public class Crop_edit extends AppCompatActivity {
                         intent.putExtra("crop_type",crop_type);
                         intent.putExtra("status","success");
                         startActivity(intent);
+                        finish();
 
                     }
 

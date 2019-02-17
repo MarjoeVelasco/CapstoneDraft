@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".Menu">
 
+
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -24,12 +26,16 @@
         <Button
             android:id="@+id/crops"
             android:layout_width="match_parent"
+            android:drawableLeft="@drawable/ic_crop"
+            android:drawableRight="@drawable/ic_arrow"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="crops" />
 
         <Button
             android:id="@+id/calendar"
+            android:drawableLeft="@drawable/ic_calendar"
+            android:drawableRight="@drawable/ic_arrow"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -37,6 +43,8 @@
 
         <Button
             android:id="@+id/events"
+            android:drawableLeft="@drawable/ic_today"
+            android:drawableRight="@drawable/ic_arrow"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -44,6 +52,8 @@
 
         <Button
             android:id="@+id/weather"
+            android:drawableLeft="@drawable/ic_cloud"
+            android:drawableRight="@drawable/ic_arrow"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -51,6 +61,8 @@
 
         <Button
             android:id="@+id/record_log"
+            android:drawableLeft="@drawable/ic_record"
+            android:drawableRight="@drawable/ic_arrow"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -58,10 +70,15 @@
 
         <Button
             android:id="@+id/profile"
+            android:drawableLeft="@drawable/ic_profile"
+            android:drawableRight="@drawable/ic_arrow"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="profile" />
 
+
+
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

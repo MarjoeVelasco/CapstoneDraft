@@ -106,9 +106,9 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
 
         viewHolder.color.setBackgroundColor(dataModel.getColor());
         viewHolder.name.setText("\t"+dataModel.getEvent_name());
-        viewHolder.time.setText("\t"+dataModel.getEvent_time());
+        viewHolder.time.setText("\n\t"+dataModel.getEvent_time());
 
-        viewHolder.crop.setText("\t"+dataModel.getCrop_name()+" "+dataModel.getVariety());
+        viewHolder.crop.setText("\t"+dataModel.getCrop_name()+"\n\t"+dataModel.getVariety());
         String crop_type=dataModel.getCrop();
         if(crop_type.equalsIgnoreCase("rice"))
         {
