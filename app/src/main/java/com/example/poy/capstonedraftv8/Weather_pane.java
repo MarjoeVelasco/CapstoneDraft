@@ -1,11 +1,17 @@
 package com.example.poy.capstonedraftv8;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -16,19 +22,31 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import java.util.Iterator;
 
+import dmax.dialog.SpotsDialog;
+
 
 public class Weather_pane extends AppCompatActivity {
+
+
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private ArrayList<WeatherModel> weatherArrayList = new ArrayList<>();
     private ListView listView;
+    TextView currentTemp;
+    ImageView dayNight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,22 +54,40 @@ public class Weather_pane extends AppCompatActivity {
         setContentView(R.layout.activity_weather_pane);
 
         listView = findViewById(R.id.idListView);
+        currentTemp = (TextView)findViewById(R.id.currentTemp);
+        dayNight = (ImageView) findViewById(R.id.dayNight);
 
         URL weatherUrl = NetworkUtils.buildUrlForWeather();
         new FetchWeatherDetails().execute(weatherUrl);
         Log.i(TAG, "onCreate: weatherUrl: " + weatherUrl);
+
+        new currentConditions().execute();
+
+
+      //  new currentConditions().execute();
+
+       /* URL weatherUrl2 = NetworkUtilsCurrentCondition.buildUrlForWeather();
+        new FetchWeatherDetails2().execute(weatherUrl2);*/
     }
 
 
     private class FetchWeatherDetails extends AsyncTask<URL, Void, String> {
+        final AlertDialog alertDialog= new SpotsDialog.Builder().setContext(Weather_pane.this).setTheme(R.style.Custom).build();
+
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+                alertDialog.show();
+
         }
 
         @Override
         protected String doInBackground(URL... urls) {
+
+
+
             URL weatherUrl = urls[0];
             String weatherSearchResults = null;
 
@@ -64,8 +100,14 @@ public class Weather_pane extends AppCompatActivity {
             return weatherSearchResults;
         }
 
+
+
         @Override
         protected void onPostExecute(String weatherSearchResults) {
+
+
+
+
             if(weatherSearchResults != null && !weatherSearchResults.equals("")) {
                 weatherArrayList = parseJSON(weatherSearchResults);
                 //Just for testing
@@ -77,9 +119,14 @@ public class Weather_pane extends AppCompatActivity {
                             " Max: " + weatherInIterator.getMaxTemp());
                 }
             }
+            alertDialog.dismiss();
             super.onPostExecute(weatherSearchResults);
         }
     }
+
+
+
+
 
     private ArrayList<WeatherModel> parseJSON(String weatherSearchResults) {
         if(weatherArrayList != null) {
@@ -106,7 +153,6 @@ public class Weather_pane extends AppCompatActivity {
                         String dateFinal =output2[2]+" "+getMonthName(month);
 
                         weather.setDate(dateFinal);
-                        Message.message(getApplicationContext(),output2[1]);
                     }
                     catch (Exception e)
                     {
@@ -153,6 +199,97 @@ public class Weather_pane extends AppCompatActivity {
         }
         return null;
     }
+
+
+    private class currentConditions extends AsyncTask<Void, Void, String>
+    {
+        @Override
+        protected String doInBackground(Void... params)
+        {
+
+            String str="http://dataservice.accuweather.com/currentconditions/v1/265081?apikey=cPon8YU02GzwINGmwhPJ3sstbPtOStYh&details=true";
+            URLConnection urlConn = null;
+            BufferedReader bufferedReader = null;
+            try
+            {
+                URL url = new URL(str);
+                urlConn = url.openConnection();
+                bufferedReader = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
+
+                StringBuffer stringBuffer = new StringBuffer();
+                String line;
+                while ((line = bufferedReader.readLine()) != null)
+                {
+                    stringBuffer.append(line);
+                }
+
+                return new String(stringBuffer.toString());
+            }
+            catch(Exception ex)
+            {
+                Log.e("App", "yourDataTask", ex);
+                return null;
+            }
+            finally
+            {
+                if(bufferedReader != null)
+                {
+                    try {
+                        bufferedReader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String response)
+        {
+            if(response != null)
+            {
+                String temperature="";
+                String isDayTime="";
+                try {
+                    JSONArray jsonarray = new JSONArray(response);
+                    for (int i = 0; i < jsonarray.length(); i++) {
+                        JSONObject jsonobject = jsonarray.getJSONObject(i);
+                        temperature = jsonobject.getJSONObject("Temperature").getJSONObject("Metric").getString("Value");
+                        isDayTime = jsonobject.getString("IsDayTime");
+                    }
+                    if(isDayTime.equals("true"))
+                    {
+                    dayNight.setImageResource(R.mipmap.sun);
+                    }
+                    else
+                    {
+                    dayNight.setImageResource(R.mipmap.moon2);
+                    }
+                    currentTemp.setText(temperature+" °C");
+
+                } catch (JSONException ex) {
+                    Log.e("App", "Failure", ex);
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void onBackPressed(){
@@ -221,4 +358,6 @@ public class Weather_pane extends AppCompatActivity {
 
         return monthName;
     }
+
+    //current
 }
