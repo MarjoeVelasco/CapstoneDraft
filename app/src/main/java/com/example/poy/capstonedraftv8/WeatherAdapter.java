@@ -29,12 +29,17 @@ public class WeatherAdapter extends ArrayAdapter<WeatherModel> {
         TextView dateTextView = convertView.findViewById(R.id.tvDate);
         TextView minTextView = convertView.findViewById(R.id.tvLowTemperature);
         TextView maxTextView = convertView.findViewById(R.id.tvHighTemperature);
-        TextView linkTextView = convertView.findViewById(R.id.tvLink);
+        TextView dayIcon = convertView.findViewById(R.id.dayIcon);
+        TextView iconPhrase = convertView.findViewById(R.id.iconPhrase);
+
 
         dateTextView.setText(weather.getDate());
         minTextView.setText(weather.getMinTemp());
         maxTextView.setText(weather.getMaxTemp());
-        linkTextView.setText(weather.getLink());
+
+        dayIcon.setText(String.valueOf(weather.getDayIcon()));
+        iconPhrase.setText(weather.getIconPhrase());
+
 
         return convertView;
 

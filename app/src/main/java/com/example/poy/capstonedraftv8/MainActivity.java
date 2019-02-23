@@ -25,6 +25,9 @@ import android.widget.Toast;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     String date;
     String date_pass;
 
+    TextView monthName;
+
     FloatingActionButton fab;
 
 
@@ -57,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setTitle(date_head);
+        monthName = (TextView) findViewById(R.id.monthName);
+
+        monthName.setText(date_head);
 
         date=date_first;
         date_pass=date;
@@ -68,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         dataModels= new ArrayList<>();
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
-
 
 
         compactCalendar = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
@@ -270,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                actionBar.setTitle(dateFormatMonth.format(firstDayOfNewMonth));
+                monthName.setText(dateFormatMonth.format(firstDayOfNewMonth));
             }
         });
 
@@ -293,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
 
     void show(){
         compactCalendar.showCalendarWithAnimation();
+
     }
 
     @Override
@@ -302,6 +307,19 @@ public class MainActivity extends AppCompatActivity {
         finish();
 
     }
+
+    public void scrollLeft(View v) {
+
+        compactCalendar.scrollLeft();
+
+    }
+
+    public void scrollRight(View v) {
+
+        compactCalendar.scrollRight();
+
+    }
+
 
 
 }

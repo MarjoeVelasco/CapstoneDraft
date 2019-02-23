@@ -5,7 +5,9 @@ public class WeatherModel {
     String date;
     String minTemp;
     String maxTemp;
-    String link;
+    int dayIcon;
+    String iconPhrase;
+
 
     public String getDate() {
         return date;
@@ -31,11 +33,23 @@ public class WeatherModel {
         this.maxTemp = maxTemp;
     }
 
-    public String getLink() {
-        return link;
+    public int getDayIcon() {
+        return dayIcon;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setDayIcon(int dayIcon) {
+        this.dayIcon = dayIcon;
     }
+
+    public String getIconPhrase() {
+        return iconPhrase;
+    }
+
+    public void setIconPhrase(String iconPhrase) {
+        this.iconPhrase = iconPhrase;
+    }
+
+
+
+
 }
