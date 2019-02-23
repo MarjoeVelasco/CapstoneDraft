@@ -7,14 +7,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import java.io.IOException;
 import java.net.URL;
+
 import java.util.ArrayList;
+
 import java.util.Iterator;
+
 
 public class Weather_pane extends AppCompatActivity {
 
@@ -66,8 +74,7 @@ public class Weather_pane extends AppCompatActivity {
                     WeatherModel weatherInIterator = (WeatherModel) itr.next();
                     Log.i(TAG, "onPostExecute: Date: " + weatherInIterator.getDate()+
                             " Min: " + weatherInIterator.getMinTemp() +
-                            " Max: " + weatherInIterator.getMaxTemp() +
-                            " Link: " + weatherInIterator.getLink());
+                            " Max: " + weatherInIterator.getMaxTemp());
                 }
             }
             super.onPostExecute(weatherSearchResults);
@@ -90,7 +97,23 @@ public class Weather_pane extends AppCompatActivity {
                     JSONObject resultsObj = results.getJSONObject(i);
 
                     String date = resultsObj.getString("Date");
-                    weather.setDate(date);
+
+                    try{
+                        DateTime d = DateTime.parse(date);
+                        String output = ISODateTimeFormat.date().print(d);
+                        String[] output2 = output.split("-");
+                        int month=Integer.parseInt(output2[1]);
+                        String dateFinal =output2[2]+" "+getMonthName(month);
+
+                        weather.setDate(dateFinal);
+                        Message.message(getApplicationContext(),output2[1]);
+                    }
+                    catch (Exception e)
+                    {
+                        Message.message(getApplicationContext(),e.getMessage());
+                        weather.setDate(date);
+                    }
+
 
                     JSONObject temperatureObj = resultsObj.getJSONObject("Temperature");
                     String minTemperature = temperatureObj.getJSONObject("Minimum").getString("Value");
@@ -99,8 +122,15 @@ public class Weather_pane extends AppCompatActivity {
                     String maxTemperature = temperatureObj.getJSONObject("Maximum").getString("Value");
                     weather.setMaxTemp(maxTemperature);
 
-                    String link = resultsObj.getString("Link");
-                    weather.setLink(link);
+                    JSONObject dayObj = resultsObj.getJSONObject("Day");
+                    int dayIcon = dayObj.getInt("Icon");
+                    weather.setDayIcon(dayIcon);
+
+                    String iconPhrase = dayObj.getString("IconPhrase");
+                    weather.setIconPhrase(iconPhrase);
+
+
+
 
                    /* Log.i(TAG, "parseJSON: date: " + date + " " +
                             "Min: " + minTemperature + " " +
@@ -129,5 +159,66 @@ public class Weather_pane extends AppCompatActivity {
         Intent intent = new Intent(Weather_pane.this,Menu.class);
         startActivity(intent);
         finish();
+    }
+
+    public String getMonthName (int month){
+        String monthName="";
+
+        switch (month)
+        {
+            case 1:
+                monthName="Jan";
+                break;
+
+            case 2:
+                monthName="Feb";
+                break;
+
+            case 3:
+                monthName="Mar";
+                break;
+
+            case 4:
+                monthName="Apr";
+                break;
+
+            case 5:
+                monthName="May";
+                break;
+
+            case 6:
+                monthName="Jun";
+                break;
+
+            case 7:
+                monthName="Jul";
+                break;
+
+            case 8:
+                monthName="Aug";
+                break;
+
+            case 9:
+                monthName="Sep";
+                break;
+
+            case 10:
+                monthName="Oct";
+                break;
+
+            case 11:
+                monthName="Nov";
+                break;
+
+            case 12:
+                monthName="Dec";
+                break;
+            default:
+                monthName="No Month";
+                break;
+
+        }
+
+        return monthName;
     }
 }

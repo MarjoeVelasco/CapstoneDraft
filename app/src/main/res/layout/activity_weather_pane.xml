@@ -2,21 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/gradient_background"
     tools:context=".Weather_pane">
 
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="1 Day Weather Condition"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text=""
         android:textSize="20sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <ListView
         android:id="@+id/idListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:divider="#FFFFFF"
+        android:dividerHeight="0.2dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>
