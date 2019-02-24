@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+android:orientation="vertical"
+    tools:context=".Weather_details">
+
+
+    <TextView
+        android:id="@+id/show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/default_gap"
+        android:layout_weight="1"
+        android:fontFamily="sans-serif-thin"
+        android:text="hello"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:typeface="monospace" />
+
+
+
+
+    <!-- <ScrollView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical">
+
+             <TextView
+                 android:id="@+id/date"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:fontFamily="sans-serif-thin"
+                 android:text="hello"
+                 android:textColor="#fff"
+                 android:textSize="20sp"
+                 android:typeface="monospace"
+                 android:layout_margin="@dimen/default_gap"/>
+
+             <TextView
+                 android:id="@+id/min_temp"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:fontFamily="sans-serif-thin"
+                 android:text="hello"
+                 android:textColor="#fff"
+                 android:textSize="20sp"
+                 android:typeface="monospace"
+                 android:layout_margin="@dimen/default_gap"/>
+
+             <TextView
+                 android:id="@+id/max_temp"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:fontFamily="sans-serif-thin"
+                 android:text="hello"
+                 android:textColor="#fff"
+                 android:textSize="20sp"
+                 android:typeface="monospace"
+                 android:layout_margin="@dimen/default_gap"/>
+
+             <TextView
+                 android:id="@+id/dayIcon"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:fontFamily="sans-serif-thin"
+                 android:text="hello"
+                 android:textColor="#fff"
+                 android:textSize="20sp"
+                 android:typeface="monospace"
+                 android:layout_margin="@dimen/default_gap"/>
+
+             <TextView
+                 android:id="@+id/dayPhrase"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:fontFamily="sans-serif-thin"
+                 android:text="hello"
+                 android:textColor="#fff"
+                 android:textSize="20sp"
+                 android:typeface="monospace"
+                 android:layout_margin="@dimen/default_gap"/>
+
+             <TextView
+                 android:id="@+id/dayRain"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:fontFamily="sans-serif-thin"
+                 android:text="hello"
+                 android:textColor="#fff"
+                 android:textSize="20sp"
+                 android:typeface="monospace"
+                 android:layout_margin="@dimen/default_gap"/>
+
+             <TextView
+                 android:id="@+id/dayWind"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:fontFamily="sans-serif-thin"
+                 android:text="hello"
+                 android:textColor="#fff"
+                 android:textSize="20sp"
+                 android:typeface="monospace"
+                 android:layout_margin="@dimen/default_gap"/>
+
+             <TextView
+                 android:id="@+id/nightIcon"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:fontFamily="sans-serif-thin"
+                 android:text="hello"
+                 android:textColor="#fff"
+                 android:textSize="20sp"
+                 android:typeface="monospace"
+                 android:layout_margin="@dimen/default_gap"/>
+
+             <TextView
+                 android:id="@+id/nightPhrase"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:fontFamily="sans-serif-thin"
+                 android:text="hello"
+                 android:textColor="#fff"
+                 android:textSize="20sp"
+                 android:typeface="monospace"
+                 android:layout_margin="@dimen/default_gap"/>
+
+             <TextView
+                 android:id="@+id/nightRain"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:fontFamily="sans-serif-thin"
+                 android:text="hello"
+                 android:textColor="#fff"
+                 android:textSize="20sp"
+                 android:typeface="monospace"
+                 android:layout_margin="@dimen/default_gap"/>
+
+             <TextView
+                 android:id="@+id/nightWind"
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"
+                 android:fontFamily="sans-serif-thin"
+                 android:text="hello"
+                 android:textColor="#fff"
+                 android:textSize="20sp"
+                 android:typeface="monospace"
+                 android:layout_margin="@dimen/default_gap"/>
+
+         </LinearLayout>
+
+
+
+
+     </ScrollView>
+     -->
+</LinearLayout>

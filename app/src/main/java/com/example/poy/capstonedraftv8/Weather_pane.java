@@ -9,6 +9,9 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -45,8 +48,9 @@ public class Weather_pane extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private ArrayList<WeatherModel> weatherArrayList = new ArrayList<>();
     private ListView listView;
-    TextView currentTemp;
+    TextView currentTemp,weatherText,humidity,wind;
     ImageView dayNight;
+    Button weather_details;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,14 @@ public class Weather_pane extends AppCompatActivity {
         setContentView(R.layout.activity_weather_pane);
 
         listView = findViewById(R.id.idListView);
+
         currentTemp = (TextView)findViewById(R.id.currentTemp);
+        weatherText = (TextView)findViewById(R.id.WeatherText);
+        humidity = (TextView)findViewById(R.id.Humidity);
+        wind = (TextView)findViewById(R.id.Wind);
+
+        weather_details = (Button) findViewById(R.id.button4);
+
         dayNight = (ImageView) findViewById(R.id.dayNight);
 
         URL weatherUrl = NetworkUtils.buildUrlForWeather();
@@ -68,6 +79,46 @@ public class Weather_pane extends AppCompatActivity {
 
        /* URL weatherUrl2 = NetworkUtilsCurrentCondition.buildUrlForWeather();
         new FetchWeatherDetails2().execute(weatherUrl2);*/
+
+       weather_details.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               /*Intent intent = new Intent(getApplicationContext(),Weather_details.class);
+               startActivity(intent);
+               overridePendingTransition(R.anim.slide_out, R.anim.mysplashanimation);*/
+           }
+       });
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+
+                                    int position, long arg3) {
+
+                // TODO Auto-generated method stub
+
+                            /*Toast.makeText(MainActivity.this,
+
+                                    "You have selected : " + myList.get(position),
+
+                                    Toast.LENGTH_SHORT).show();*/
+
+                WeatherModel dataModel = weatherArrayList.get(position);
+
+                Message.message(getApplicationContext(),dataModel.getDate());
+                Intent intent = new Intent(getApplicationContext(),Weather_details.class);
+                intent.putExtra("weather_date",dataModel.getDate());
+                startActivity(intent);
+                overridePendingTransition(R.anim.mysplashanimation,R.anim.slide_in);
+
+
+
+            }
+
+        });
     }
 
 
@@ -140,7 +191,6 @@ public class Weather_pane extends AppCompatActivity {
 
                 for (int i = 0; i < results.length(); i++) {
                     WeatherModel weather = new WeatherModel();
-
                     JSONObject resultsObj = results.getJSONObject(i);
 
                     String date = resultsObj.getString("Date");
@@ -153,6 +203,8 @@ public class Weather_pane extends AppCompatActivity {
                         String dateFinal =output2[2]+" "+getMonthName(month);
 
                         weather.setDate(dateFinal);
+                        Weather_details.list1.add(dateFinal);
+
                     }
                     catch (Exception e)
                     {
@@ -164,16 +216,41 @@ public class Weather_pane extends AppCompatActivity {
                     JSONObject temperatureObj = resultsObj.getJSONObject("Temperature");
                     String minTemperature = temperatureObj.getJSONObject("Minimum").getString("Value");
                     weather.setMinTemp(minTemperature);
+                    Weather_details.list1.add(minTemperature+" °C");
 
                     String maxTemperature = temperatureObj.getJSONObject("Maximum").getString("Value");
                     weather.setMaxTemp(maxTemperature);
+                    Weather_details.list1.add(maxTemperature+" °C");
 
+                    //******************************DAY***********************************************
                     JSONObject dayObj = resultsObj.getJSONObject("Day");
                     int dayIcon = dayObj.getInt("Icon");
                     weather.setDayIcon(dayIcon);
+                    Weather_details.list1.add(dayIcon);
 
                     String iconPhrase = dayObj.getString("IconPhrase");
                     weather.setIconPhrase(iconPhrase);
+                    Weather_details.list1.add(iconPhrase);
+
+                    String rain = dayObj.getString("RainProbability");
+                    Weather_details.list1.add(rain+" %");
+
+                    String wind = dayObj.getJSONObject("Wind").getJSONObject("Speed").getString("Value");
+                    Weather_details.list1.add(wind+" km/h");
+
+                    //******************************NIGHT***********************************************
+                    JSONObject nightObj = resultsObj.getJSONObject("Night");
+                    int nightIcon = nightObj.getInt("Icon");
+                    Weather_details.list1.add(nightIcon);
+
+                    String iconPhraseNight = nightObj.getString("IconPhrase");
+                    Weather_details.list1.add(iconPhraseNight);
+
+                    String rainNight = nightObj.getString("RainProbability");
+                    Weather_details.list1.add(rainNight+" %");
+
+                    String windNight = nightObj.getJSONObject("Wind").getJSONObject("Speed").getString("Value");
+                    Weather_details.list1.add(windNight+" km/h");
 
 
 
@@ -207,7 +284,7 @@ public class Weather_pane extends AppCompatActivity {
         protected String doInBackground(Void... params)
         {
 
-            String str="http://dataservice.accuweather.com/currentconditions/v1/265081?apikey=cPon8YU02GzwINGmwhPJ3sstbPtOStYh&details=true";
+            String str="http://dataservice.accuweather.com/currentconditions/v1/265081?apikey=rquVGD9GWSzSoCRwzjYs17NvCXGsu0eh&details=true";
             URLConnection urlConn = null;
             BufferedReader bufferedReader = null;
             try
@@ -250,12 +327,18 @@ public class Weather_pane extends AppCompatActivity {
             {
                 String temperature="";
                 String isDayTime="";
+                String weatherText2="";
+                String humidity2="";
+                String wind2="";
                 try {
                     JSONArray jsonarray = new JSONArray(response);
                     for (int i = 0; i < jsonarray.length(); i++) {
                         JSONObject jsonobject = jsonarray.getJSONObject(i);
                         temperature = jsonobject.getJSONObject("Temperature").getJSONObject("Metric").getString("Value");
                         isDayTime = jsonobject.getString("IsDayTime");
+                        weatherText2 = jsonobject.getString("WeatherText");
+                        humidity2 = jsonobject.getString("RelativeHumidity");
+                        wind2 = jsonobject.getJSONObject("Wind").getJSONObject("Speed").getJSONObject("Metric").getString("Value");
                     }
                     if(isDayTime.equals("true"))
                     {
@@ -266,6 +349,9 @@ public class Weather_pane extends AppCompatActivity {
                     dayNight.setImageResource(R.mipmap.moon2);
                     }
                     currentTemp.setText(temperature+" °C");
+                    weatherText.setText(weatherText2);
+                    humidity.setText(humidity2+"%");
+                    wind.setText(wind2+ "km/h");
 
                 } catch (JSONException ex) {
                     Log.e("App", "Failure", ex);
@@ -359,5 +445,5 @@ public class Weather_pane extends AppCompatActivity {
         return monthName;
     }
 
-    //current
+
 }
