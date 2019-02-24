@@ -3,31 +3,115 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/gradient_background"
+    android:orientation="vertical"
     tools:context=".Weather_pane">
 
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="40dp"
         android:layout_weight="1"
-        android:text=""
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
 
-    <TextView
-        android:id="@+id/textView8"
+        <TextView
+            android:id="@+id/currentTemp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawablePadding="50dp"
+            android:fontFamily="sans-serif-thin"
+            android:paddingTop="@android:dimen/app_icon_size"
+            android:text="Sup °C"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="40sp"
+            android:typeface="monospace" />
+
+        <ImageView
+            android:id="@+id/dayNight"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-thin"
+            android:padding="30dp"
+            android:paddingTop="@android:dimen/app_icon_size"
+            android:src="@mipmap/moon2"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="40sp"
+            android:typeface="monospace" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_marginTop="40dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
+
+        <TextView
+            android:id="@+id/WeatherText"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:text="hello"
+            android:textColor="#fff"
+            android:textSize="25sp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/Humidity"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:text="hello"
+            android:textColor="#fff"
+            android:textSize="25sp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/Wind"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:text="hello"
+            android:textColor="#fff"
+            android:textSize="25sp"
+            android:typeface="monospace" />
+
+    </LinearLayout>
+
 
     <ListView
         android:id="@+id/idListView"
         android:layout_width="match_parent"
-        android:divider="#FFFFFF"
-        android:dividerHeight="0.2dp"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:divider="#FFFFFF"
+        android:dividerHeight="0.2dp" >
+
+
+    </ListView>
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" />
 
 </LinearLayout>

@@ -1,7 +1,9 @@
 <resources>
 
+
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -26,6 +28,20 @@
 
 
     </style>
+
+    <style name="Custom" parent="android:Theme.DeviceDefault.Dialog">
+        <item name="DialogTitleText">Loading…</item>
+        <item name="DialogSpotColor">#FFFFFF</item>
+        <item name="android:background">@drawable/gradient_background</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">16sp</item>
+        <item name="DialogSpotCount">4</item>
+
+    </style>
+
+
 
 
 </resources>

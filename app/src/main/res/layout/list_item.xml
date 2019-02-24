@@ -5,16 +5,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="2017-11-29"
-        android:textColor="#FFFFFF"
-        android:typeface="monospace"
-        android:fontFamily="sans-serif-thin"
-        android:textSize="15sp"
-        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,6 +12,16 @@
         android:orientation="vertical">
 
 
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2017-11-29"
+            android:textColor="#FFFFFF"
+            android:typeface="monospace"
+            android:fontFamily="sans-serif-thin"
+            android:textSize="15sp"
+            />
 
         <TextView
             android:id="@+id/tvHighTemperature"
@@ -47,13 +47,6 @@
             android:typeface="monospace"
             android:fontFamily="sans-serif-thin"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
         <TextView
             android:id="@+id/dayIcon"
             android:layout_width="match_parent"
@@ -77,6 +70,7 @@
             android:fontFamily="sans-serif-thin"/>
 
     </LinearLayout>
+
 
 
 </LinearLayout>
