@@ -37,6 +37,13 @@
             android:text="Crop:" />
 
         <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Season:" />
+
+        <TextView
             android:id="@+id/textView33"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -106,6 +113,28 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:text="Onion" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/season"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <RadioButton
+                android:id="@+id/wet"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="Wet" />
+
+            <RadioButton
+                android:id="@+id/dry"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Dry" />
         </RadioGroup>
 
         <Spinner

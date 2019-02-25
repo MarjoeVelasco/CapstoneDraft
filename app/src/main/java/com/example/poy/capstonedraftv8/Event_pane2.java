@@ -293,6 +293,7 @@ public class Event_pane2 extends AppCompatActivity {
                 spinnerArray.add("Threshing");
                 spinnerArray.add("Transportation");
                 spinnerArray.add("Drying");
+                spinnerArray.add("Harvesting");
 
 
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -568,11 +569,12 @@ public class Event_pane2 extends AppCompatActivity {
                     checker=1;
                     task_title.setText("Harvest Management");
 
-                    String[] event5 = new String[4];
+                    String[] event5 = new String[5];
                     event5[0] = "Reaping";
                     event5[1] = "Threshing";
                     event5[2] = "Transportation";
                     event5[3] = "Drying";
+                    event5[4] = "Harvesting";
                     for (int i = 0; i <event5.length; i++) {
 
                         String check = event5[i];

@@ -16,13 +16,14 @@ public class myDbAdapter {
 
 
 //CROP DATA
-    public long insertCrop(String crop_name,String crop, String variety)
+    public long insertCrop(String crop_name,String crop, String variety,String season)
     {
         SQLiteDatabase dbb = myhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(myDbHelper.CROP_NAME, crop_name);
         contentValues.put(myDbHelper.CROP, crop);
         contentValues.put(myDbHelper.VARIETY, variety);
+        contentValues.put(myDbHelper.SEASON, season);
 
         long id = dbb.insert(myDbHelper.TABLE_NAME2, null , contentValues);
         return id;
@@ -31,7 +32,7 @@ public class myDbAdapter {
     public String getDataCrop()
     {
         SQLiteDatabase db = myhelper.getWritableDatabase();
-        String[] columns = {myDbHelper.ID2, myDbHelper.CROP_NAME, myDbHelper.CROP, myDbHelper.VARIETY};
+        String[] columns = {myDbHelper.ID2, myDbHelper.CROP_NAME, myDbHelper.CROP, myDbHelper.VARIETY,myDbHelper.SEASON};
         Cursor cursor =db.query(myDbHelper.TABLE_NAME2,columns,null,null,null,null,null);
         StringBuffer buffer= new StringBuffer();
         while (cursor.moveToNext())
@@ -40,7 +41,8 @@ public class myDbAdapter {
             String crop_name =cursor.getString(cursor.getColumnIndex(myDbHelper.CROP_NAME));
             String  crop     =cursor.getString(cursor.getColumnIndex(myDbHelper.CROP));
             String  variety  =cursor.getString(cursor.getColumnIndex(myDbHelper.VARIETY));
-            buffer.append(cid+ "   " + crop_name + "   " + crop +"  " + variety+"\n");
+            String  season  =cursor.getString(cursor.getColumnIndex(myDbHelper.SEASON));
+            buffer.append(cid+ "   " + crop_name + "   " + crop +"  " + variety+" "+season);
         }
         return buffer.toString();
     }
@@ -87,13 +89,14 @@ public class myDbAdapter {
         return  count;
     }
 
-    public int updateCrop(String id,String crop_name,String crop, String variety)
+    public int updateCrop(String id,String crop_name,String crop, String variety,String season)
     {
         SQLiteDatabase db = myhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(myDbHelper.CROP_NAME, crop_name);
         contentValues.put(myDbHelper.CROP, crop);
         contentValues.put(myDbHelper.VARIETY, variety);
+        contentValues.put(myDbHelper.SEASON, season);
         String[] whereArgs= {id};
         int count =db.update(myDbHelper.TABLE_NAME2,contentValues, myDbHelper.ID2+" = ?",whereArgs );
         return count;
@@ -259,9 +262,10 @@ public class myDbAdapter {
         private static final String CROP_NAME = "crop_name";    //Column II
         private static final String CROP = "crop";    //Column II
         private static final String VARIETY = "variety";    //Column II
+        private static final String SEASON = "season";    //Column II
 
         private static final String CREATE_TABLE2 = "CREATE TABLE "+TABLE_NAME2+
-                "("+ID2+" INTEGER PRIMARY KEY AUTOINCREMENT, "+CROP_NAME+" VARCHAR(255),"+ CROP+" VARCHAR(255),"+ VARIETY+" VARCHAR(255));";
+                "("+ID2+" INTEGER PRIMARY KEY AUTOINCREMENT, "+CROP_NAME+" VARCHAR(255),"+ CROP+" VARCHAR(255),"+ VARIETY+" VARCHAR(255),"+ SEASON+" VARCHAR(255));";
 
 
         private static final String DROP_TABLE2 ="DROP TABLE IF EXISTS "+TABLE_NAME2;

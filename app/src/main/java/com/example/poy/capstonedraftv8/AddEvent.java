@@ -349,6 +349,7 @@ public class AddEvent extends AppCompatActivity {
                 spinnerArray.add("Threshing");
                 spinnerArray.add("Transportation");
                 spinnerArray.add("Drying");
+                spinnerArray.add("Harvesting");
 
 
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

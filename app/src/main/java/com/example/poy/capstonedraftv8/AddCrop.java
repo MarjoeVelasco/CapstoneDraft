@@ -23,11 +23,12 @@ public class AddCrop extends AppCompatActivity {
     myDbAdapter helper;
 
     Button add_crop,view_crop;
-    RadioGroup crop;
+    RadioGroup crop,season;
     Spinner variety;
     EditText crop_name;
-    RadioButton onion,rice;
+    RadioButton onion,rice,wet,dry;
     String crop_type="rice";
+    String season_type="wet";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +43,27 @@ public class AddCrop extends AppCompatActivity {
         view_crop = (Button)findViewById(R.id.button3);
         crop = (RadioGroup)findViewById(R.id.crop);
         variety = (Spinner)findViewById(R.id.variety);
+        season = (RadioGroup) findViewById(R.id.season);
         onion = (RadioButton)findViewById(R.id.onion);
         rice = (RadioButton)findViewById(R.id.rice);
+        wet = (RadioButton)findViewById(R.id.wet);
+        dry = (RadioButton)findViewById(R.id.dry);
 
 
         final List<String> spinnerArray =  new ArrayList<String>();
+        spinnerArray.add("Rc9");
         spinnerArray.add("Rc14");
-        spinnerArray.add("Rc68");
-        spinnerArray.add("Rc222 (Triple 2)");
         spinnerArray.add("Rc18 (Ala)");
-        spinnerArray.add("Rc194 (Submarino)");
         spinnerArray.add("Rc68");
+        spinnerArray.add("Rc194 (Submarino)");
+        spinnerArray.add("Rc222 (Triple 2)");
+        spinnerArray.add("Rc300");
+        spinnerArray.add("Rc160");
         spinnerArray.add("Rc238");
         spinnerArray.add("Rc216");
-        spinnerArray.add("Rc160");
-        spinnerArray.add("Rc300");
+
+
+
 
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
@@ -72,17 +79,32 @@ public class AddCrop extends AppCompatActivity {
 
                     case R.id.rice:
                         crop_type="rice";
-                        spinnerArray.clear();
-                        spinnerArray.add("Rc9");
-                        spinnerArray.add("Rc14");
-                        spinnerArray.add("Rc18 (Ala)");
-                        spinnerArray.add("Rc68");
-                        spinnerArray.add("Rc160");
-                        spinnerArray.add("Rc194 (Submarino)");
-                        spinnerArray.add("Rc216");
-                        spinnerArray.add("Rc222 (Triple 2)");
-                        spinnerArray.add("Rc238");
-                        spinnerArray.add("Rc300");
+
+                        if(wet.isChecked())
+                        {
+                            season_type="wet";
+                            spinnerArray.clear();
+                            spinnerArray.add("Rc9");
+                            spinnerArray.add("Rc14");
+                            spinnerArray.add("Rc18 (Ala)");
+                            spinnerArray.add("Rc68");
+                            spinnerArray.add("Rc194 (Submarino)");
+                            spinnerArray.add("Rc222 (Triple 2)");
+                            spinnerArray.add("Rc300");
+                            spinnerArray.add("Rc160");
+                            spinnerArray.add("Rc238");
+                            spinnerArray.add("Rc216");
+                        }
+                        else
+                        {
+                            season_type="dry";
+                            spinnerArray.clear();
+                            spinnerArray.add("Rc160");
+                            spinnerArray.add("Rc222 (Triple 2)");
+                            spinnerArray.add("Rc238");
+                            spinnerArray.add("Rc216");
+                        }
+
 
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -92,6 +114,15 @@ public class AddCrop extends AppCompatActivity {
 
                     case R.id.onion:
                         crop_type="onion";
+
+                        if(wet.isChecked())
+                        {
+                            season_type="wet";
+                        }
+                        else
+                        {
+                            season_type="dry";
+                        }
                         spinnerArray.clear();
                         spinnerArray.add("BGS 95 (F1 Hybrid)");
                         spinnerArray.add("Cal 120");
@@ -128,12 +159,123 @@ public class AddCrop extends AppCompatActivity {
 
         });
 
+        season.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+
+                    case R.id.wet:
+                        season_type="wet";
+
+                        if(rice.isChecked())
+                        {
+                            crop_type="rice";
+                            spinnerArray.clear();
+                            spinnerArray.add("Rc9");
+                            spinnerArray.add("Rc14");
+                            spinnerArray.add("Rc18 (Ala)");
+                            spinnerArray.add("Rc68");
+                            spinnerArray.add("Rc194 (Submarino)");
+                            spinnerArray.add("Rc222 (Triple 2)");
+                            spinnerArray.add("Rc300");
+                            spinnerArray.add("Rc160");
+                            spinnerArray.add("Rc238");
+                            spinnerArray.add("Rc216");
+                        }
+                        else
+                        {
+                            crop_type="onion";
+                            spinnerArray.clear();
+                            spinnerArray.add("BGS 95 (F1 Hybrid)");
+                            spinnerArray.add("Cal 120");
+                            spinnerArray.add("Cal 202");
+                            spinnerArray.add("Capri");
+                            spinnerArray.add("CX-12");
+                            spinnerArray.add("Grannex 429");
+                            spinnerArray.add("Hybrid Red Orient");
+                            spinnerArray.add("Liberty");
+                            spinnerArray.add("Red Creole");
+                            spinnerArray.add("Red Pinoy");
+                            spinnerArray.add("Rio Bravo");
+                            spinnerArray.add("Rio Hondo");
+                            spinnerArray.add("Rio Raji Red");
+                            spinnerArray.add("Rio Tinto");
+                            spinnerArray.add("Super Pinoy");
+                            spinnerArray.add("SuperX");
+                            spinnerArray.add("Texas Grano");
+                            spinnerArray.add("Yellow Grannex");
+
+                        }
+
+
+
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                        variety.setAdapter(adapter);
+
+                        break;
+
+                    case R.id.dry:
+                        season_type="dry";
+
+                        if(rice.isChecked())
+                        {
+                            crop_type="rice";
+                            spinnerArray.clear();
+                            spinnerArray.add("Rc160");
+                            spinnerArray.add("Rc222 (Triple 2)");
+                            spinnerArray.add("Rc238");
+                            spinnerArray.add("Rc216");
+                        }
+                        else
+                        {
+                            crop_type="onion";
+                            spinnerArray.clear();
+                            spinnerArray.add("BGS 95 (F1 Hybrid)");
+                            spinnerArray.add("Cal 120");
+                            spinnerArray.add("Cal 202");
+                            spinnerArray.add("Capri");
+                            spinnerArray.add("CX-12");
+                            spinnerArray.add("Grannex 429");
+                            spinnerArray.add("Hybrid Red Orient");
+                            spinnerArray.add("Liberty");
+                            spinnerArray.add("Red Creole");
+                            spinnerArray.add("Red Pinoy");
+                            spinnerArray.add("Rio Bravo");
+                            spinnerArray.add("Rio Hondo");
+                            spinnerArray.add("Rio Raji Red");
+                            spinnerArray.add("Rio Tinto");
+                            spinnerArray.add("Super Pinoy");
+                            spinnerArray.add("SuperX");
+                            spinnerArray.add("Texas Grano");
+                            spinnerArray.add("Yellow Grannex");
+
+                        }
+
+
+
+
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                        variety.setAdapter(adapter);
+
+                        break;
+
+
+
+
+                }
+            }
+
+        });
+
+
 
         add_crop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String crop_name_a = crop_name.getText().toString();
                 String crop_variety = variety.getSelectedItem().toString();
+
 
                 Cursor dbres = helper.getCropId(crop_name_a);
                 if(dbres.getCount() >=1)
@@ -146,7 +288,7 @@ public class AddCrop extends AppCompatActivity {
                 {
                     try
                     {
-                        long result = helper.insertCrop(crop_name_a,crop_type,crop_variety);
+                        long result = helper.insertCrop(crop_name_a,crop_type,crop_variety,season_type);
 
                         if(result != -1)
                         {
