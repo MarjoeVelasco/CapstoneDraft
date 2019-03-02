@@ -1,5 +1,6 @@
 package com.example.poy.capstonedraftv8;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,7 +32,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class Event_list extends AppCompatActivity {
+public class Event_list extends Activity {
 
     ArrayList<DataModelEventList> dataModels2;
     private CustomAdapterListview mAdapter;

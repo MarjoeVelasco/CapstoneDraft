@@ -32,10 +32,15 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 
 public class AddEvent extends AppCompatActivity {
@@ -438,23 +443,6 @@ public class AddEvent extends AppCompatActivity {
                     String f_timestamp=start_date+" "+start_time;
 
 
-
-
-                /*Instant a = Instant.now();
-                ZonedDateTime b = ZonedDateTime.now(ZoneId.of("Asia/Singapore"));*/
-
-                /*LocalDateTime.parse(           // Parse into an object representing a date with a time-of-day but without time zone and without offset-from-UTC.
-                        "2014/10/29 18:10:45"      // Convert input string to comply with standard ISO 8601 format.
-                                .replace( " " , "T" )      // Replace SPACE in the middle with a `T`.
-                                .replace( "/" , "-" )      // Replace SLASH in the middle with a `-`.
-                )
-                        .atZone(                       // Apply a time zone to provide the context needed to determine an actual moment.
-                                ZoneId.of( "Asia/Singapore" ) // Specify the time zone you are certain was intended for that input.
-                        )                              // Returns a `ZonedDateTime` object.
-                        .toInstant()                   // Adjust into UTC.
-                        .toEpochMilli();
-                */
-
                     String input = f_timestamp.replace( " " , "T" );
                     LocalDateTime ldt = LocalDateTime.parse( input ) ;
 
@@ -491,6 +479,39 @@ public class AddEvent extends AppCompatActivity {
                     int crop_id=getCropId(crop_name1);
 
                     helper.insertData(millisSinceEpoch,mPickedColor,title,start_date,start_time,dd_id,icon,crop_id);
+
+                    Cursor dbres16 = helper.getLastId();
+                    String temp_last_id="";
+
+                    while (dbres16.moveToNext()) {
+                        temp_last_id=String.format(dbres16.getString(0));
+                    }
+
+                    Cursor dbres15 = helper.getCropData(String.valueOf(crop_id));
+
+                    if(dbres15.getCount()!=0)
+                    {
+
+                        while (dbres15.moveToNext()) {
+
+                            String crop_name = String.format(dbres15.getString(1));
+                            String crop=String.format(dbres15.getString(2));
+                            String temp_title=title+" of "+crop+"("+crop_name+")";
+
+                            //NOTIF*************
+
+                            AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                            Intent notificationIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+
+                            notificationIntent.putExtra("param", temp_title);
+                            PendingIntent broadcast = PendingIntent.getBroadcast(getApplicationContext(),Integer.parseInt(temp_last_id), notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                            alarmManager.setExact(AlarmManager.RTC_WAKEUP, millisSinceEpoch, broadcast);
+
+                            //END OF NOTIF*************
+
+                        }
+                    }
+
 
                 }
                 else

@@ -14,6 +14,10 @@ public class myDbAdapter {
         myhelper = new myDbHelper(context);
     }
 
+//NOTIFICATION DATA
+
+
+
 
 //CROP DATA
     public long insertCrop(String crop_name,String crop, String variety,String season)
@@ -151,6 +155,12 @@ public class myDbAdapter {
     }
 
 
+    // GETTING LAST ID ADDED
+    public Cursor getLastId(){
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+        Cursor res = db.rawQuery("select max("+myDbHelper.ID+") from "+ myDbHelper.TABLE_NAME,null);
+        return res;
+    }
 
     // GETTING START DATE
     public Cursor getStartDate(String date_id){
@@ -257,6 +267,7 @@ public class myDbAdapter {
         private static final String DROP_TABLE ="DROP TABLE IF EXISTS "+TABLE_NAME;
 
 
+
         private static final String TABLE_NAME2 = "mycrops";   // Table Name
         private static final String ID2="_id";     // Column I (Primary Key)
         private static final String CROP_NAME = "crop_name";    //Column II
@@ -267,8 +278,19 @@ public class myDbAdapter {
         private static final String CREATE_TABLE2 = "CREATE TABLE "+TABLE_NAME2+
                 "("+ID2+" INTEGER PRIMARY KEY AUTOINCREMENT, "+CROP_NAME+" VARCHAR(255),"+ CROP+" VARCHAR(255),"+ VARIETY+" VARCHAR(255),"+ SEASON+" VARCHAR(255));";
 
-
         private static final String DROP_TABLE2 ="DROP TABLE IF EXISTS "+TABLE_NAME2;
+
+
+       /* private static final String TABLE_NAME3 = "notiflog";   // Table Name
+        private static final String NID="nid";     // Column I (Primary Key)
+        private static final String NDATE_TIME = "ndate_time";    //Column II
+        private static final String EID = "eid";    //Column II
+
+
+        private static final String CREATE_TABLE3 = "CREATE TABLE "+TABLE_NAME3+
+                "("+NID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+NDATE_TIME+" VARCHAR(255),"+ EID+" INTEGER);";
+
+        private static final String DROP_TABLE3 ="DROP TABLE IF EXISTS "+TABLE_NAME3;*/
 
 
 
@@ -285,6 +307,7 @@ public class myDbAdapter {
             try {
                 db.execSQL(CREATE_TABLE);
                 db.execSQL(CREATE_TABLE2);
+                //db.execSQL(CREATE_TABLE3);
             } catch (Exception e) {
                 Message.message(context,""+e);
             }
@@ -296,6 +319,7 @@ public class myDbAdapter {
                 Message.message(context,"OnUpgrade");
                 db.execSQL(DROP_TABLE);
                 db.execSQL(DROP_TABLE2);
+                //db.execSQL(DROP_TABLE3);
                 onCreate(db);
             }catch (Exception e) {
                 Message.message(context,""+e);

@@ -1,6 +1,8 @@
 package com.example.poy.capstonedraftv8;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,6 +37,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
     private static CustomAdapter adapter;
 
 
-
+    ArrayList<Long> notifDates = new ArrayList<Long>();
+    ArrayList<Integer> notifID = new ArrayList<Integer>();
+    ArrayList<String> notifTitles = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +93,82 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        final Button trialResched = (Button)findViewById(R.id.button6);
+
+        trialResched.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int checker = 0;
+
+                Calendar cal = Calendar.getInstance();
+                long dateChecker = cal.getTimeInMillis();
+
+                try {
+
+                    int id = 0;
+                    long date_time = 0L;
+                    String title = "";
+
+                    String crop_name = "";
+                    String crop = "";
+
+                Cursor dbres22 = helper.getAllData();
+                if (dbres22.getCount() != 0) {
+
+                    while (dbres22.moveToNext()) {
+
+
+                        String tempDate = String.format(dbres22.getString(1));
+                        date_time = Long.parseLong(tempDate);
+
+                        if (dateChecker < date_time) {
+                            String id2 = String.format(dbres22.getString(0));
+                            String title2 = String.format(dbres22.getString(3));
+                            String crop_id = String.format(dbres22.getString(8));
+
+                            Cursor dbres2 = helper.getCropData(crop_id);
+
+                            if(dbres2.getCount()!=0)
+                            {
+
+                                while (dbres2.moveToNext()) {
+
+                                    crop_name = String.format(dbres2.getString(1));
+                                    crop=String.format(dbres2.getString(2));
+                                    String temp_title=title2+" of "+crop+"("+crop_name+")";
+                                    title=title+id2+" "+date_time+" "+temp_title+"\n";
+
+
+                                    //NOTIF*************
+
+                                    AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                                    Intent notificationIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+
+                                    notificationIntent.putExtra("param", temp_title);
+                                    PendingIntent broadcast = PendingIntent.getBroadcast(getApplicationContext(),Integer.parseInt(id2), notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, date_time, broadcast);
+
+                                    //END OF NOTIF*************
+
+                                }
+                            }
+
+                        }
+
+
+                    }
+                    Message.message(getApplicationContext(),title);
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                Message.message(getApplicationContext(),e.getMessage());
+            }
+            }
+        });
 
 
         if(dbres.getCount() == 0)
@@ -319,6 +400,7 @@ public class MainActivity extends AppCompatActivity {
         compactCalendar.scrollRight();
 
     }
+
 
 
 
