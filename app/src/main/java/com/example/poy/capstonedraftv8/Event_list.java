@@ -1,7 +1,11 @@
 package com.example.poy.capstonedraftv8;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -28,11 +32,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class Event_list extends Activity {
+
+
 
     ArrayList<DataModelEventList> dataModels2;
     private CustomAdapterListview mAdapter;
@@ -62,6 +69,8 @@ public class Event_list extends Activity {
     private void setPlayersDataAdapter() {
 
         String date_today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+
         Cursor dbres = helper.getEventDataList(date_today);
         if(dbres.getCount() == 0)
         {
@@ -80,6 +89,7 @@ public class Event_list extends Activity {
                 String event_name=String.format(dbres.getString(3));
                 String event_time=String.format(dbres.getString(5));
                 String event_id=String.format(dbres.getString(0));
+                long epochTimeTemp=Long.parseLong(String.format(dbres.getString(1)));
                 String color2=String.format(dbres.getString(2));
                 String event_date=String.format(dbres.getString(4));
                 int color=Integer.parseInt(color2);
@@ -98,7 +108,7 @@ public class Event_list extends Activity {
 
                 }
 
-                    dataModels2.add(new DataModelEventList(event_name, event_time,event_date,event_id,date_id,color,icon,crop,crop_name,variety));
+                    dataModels2.add(new DataModelEventList(event_name, event_time,event_date,event_id,date_id,color,icon,crop,crop_name,variety,epochTimeTemp));
 
             }
 
@@ -118,6 +128,7 @@ public class Event_list extends Activity {
             public void onRightClicked(int position) {
                 DataModelEventList dataModel = dataModels2.get(position);
                final String id=dataModel.getDate_id();
+               final String request_code=dataModel.getEvent_id();
                 final int a=position;
 
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(
@@ -143,7 +154,28 @@ public class Event_list extends Activity {
                         mAdapter.notifyItemRemoved(a);
                         mAdapter.notifyItemRangeChanged(a, mAdapter.getItemCount());
 
+                        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+                        notificationManager.cancel(Integer.parseInt(id));
+
+                        Message.message(getApplicationContext(),request_code);
+                        try
+                        {
+                            AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                            Intent myIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                            PendingIntent broadcast2 = PendingIntent.getBroadcast(getApplicationContext(), Integer.parseInt(request_code) , myIntent, PendingIntent.FLAG_ONE_SHOT);
+                            broadcast2.cancel();
+                            alarmManager.cancel(broadcast2);
+                        }
+                        catch (Exception e)
+                        {
+                            Message.message(getApplicationContext(),e.getMessage());
+                        }
+
                         helper.delete(id);
+
+                        //CANCEL NOTIFICATION
+
+
                         Snackbar.make(findViewById(android.R.id.content),"Event Deleted",Snackbar.LENGTH_SHORT).show();
 
 

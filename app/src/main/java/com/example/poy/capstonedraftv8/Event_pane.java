@@ -1,6 +1,10 @@
 package com.example.poy.capstonedraftv8;
 
+import android.app.AlarmManager;
 import android.app.DialogFragment;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -29,7 +33,10 @@ import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+
 
 
 public class Event_pane extends AppCompatActivity {
@@ -48,6 +55,7 @@ public class Event_pane extends AppCompatActivity {
     String event_name="";
     String event_date="";
     String event_time="";
+    String request_code="";
 
     String crop_variety_checker="";
 
@@ -65,6 +73,8 @@ public class Event_pane extends AppCompatActivity {
     public static String start_time;
 
     public static int mPickedColor ;
+
+
 
 
     @Override
@@ -412,6 +422,7 @@ public class Event_pane extends AppCompatActivity {
             String crop_id="";
             while (dbres.moveToNext()){
 
+                request_code=String.format(dbres.getString(0));
                 id= String.format(dbres.getString(6));
                 color = String.format(dbres.getString(2));
                 event_name = String.format(dbres.getString(3));
@@ -488,6 +499,7 @@ public class Event_pane extends AppCompatActivity {
 
 
             }
+
             pane.setText(event_date);
             r1.setBackgroundColor(Integer.parseInt(color));
             mPickedColor=Integer.parseInt(color);
@@ -633,6 +645,7 @@ public class Event_pane extends AppCompatActivity {
 
             while (dbres2.moveToNext()) {
 
+
                 id= String.format(dbres2.getString(6));
                 color = String.format(dbres2.getString(2));
                 event_name = String.format(dbres2.getString(3));
@@ -709,7 +722,58 @@ public class Event_pane extends AppCompatActivity {
                         Message.message(getApplicationContext(),"Unsuccessful");
 
                     } else {
-                        Message.message(getApplicationContext(),"Event Updated");
+
+                        Calendar cal = Calendar.getInstance();
+                        long dateChecker = cal.getTimeInMillis();
+
+                        if(dateChecker<millisSinceEpoch)
+                        {
+                            try
+                            {
+                                AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                                Intent myIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                                PendingIntent broadcast2 = PendingIntent.getBroadcast(getApplicationContext(), Integer.parseInt(id) , myIntent, PendingIntent.FLAG_ONE_SHOT);
+                                broadcast2.cancel();
+                                alarmManager.cancel(broadcast2);
+
+                                myIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+
+                                Cursor dbres15 = helper.getCropData(String.valueOf(crop_id));
+
+                                if(dbres15.getCount()!=0)
+                                {
+
+                                    while (dbres15.moveToNext()) {
+
+                                        String crop_name = String.format(dbres15.getString(1));
+                                        String crop=String.format(dbres15.getString(2));
+                                        String temp_title=title+" of "+crop+"("+crop_name+")";
+
+                                        //NOTIF*************
+
+                                        myIntent.putExtra("param", temp_title);
+                                        broadcast2 = PendingIntent.getBroadcast(getApplicationContext(),Integer.parseInt(id), myIntent, PendingIntent.FLAG_ONE_SHOT);
+                                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, millisSinceEpoch, broadcast2);
+                                        Message.message(getApplicationContext(),id);
+
+                                        //END OF NOTIF*************
+
+                                    }
+                                }
+
+
+
+
+
+                            }
+                            catch (Exception e)
+                            {
+                                Message.message(getApplicationContext(),e.getMessage());
+                            }
+
+                        }
+
+                        Message.message(getApplicationContext(), "Event Updated");
 
                     }
                     //Message.message(getApplicationContext(),f_timestamp+" "+millisSinceEpoch);
@@ -831,7 +895,31 @@ public class Event_pane extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //CANCEL NOTIFICATION
+                Message.message(getApplicationContext(),request_code);
+                try
+                {
+                    AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                    Intent myIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                    PendingIntent broadcast2 = PendingIntent.getBroadcast(getApplicationContext(), Integer.parseInt(request_code) , myIntent, PendingIntent.FLAG_ONE_SHOT);
+                    broadcast2.cancel();
+                    alarmManager.cancel(broadcast2);
+                }
+                catch (Exception e)
+                {
+                    Message.message(getApplicationContext(),e.getMessage());
+                }
+
+
+                //CANCEL NOTIFICATION
+
+
+
                 helper.delete(id);
+
+
+
+
                 Message.message(getApplicationContext(),"Event Deleted");
 
                 Intent intent = new Intent(Event_pane.this,MainActivity.class);

@@ -14,15 +14,20 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 
 import java.util.Random;
 
 import static android.app.NotificationManager.IMPORTANCE_DEFAULT;
+import static android.app.NotificationManager.IMPORTANCE_LOW;
 
 public class AlarmReceiver extends BroadcastReceiver{
     private static final String CHANNEL_ID = "com.singhajit.notificationDemo.channelId";
     private static final String KEY_NOTIFICATION_GROUP = "com.singhajit.notificationDemo.group";
+
+    int SUMMARY_ID = 0;
+    String GROUP_KEY_WORK_EMAIL = "com.android.example.WORK_EMAIL";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -38,7 +43,17 @@ public class AlarmReceiver extends BroadcastReceiver{
 
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(1, 0);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,CHANNEL_ID);
+       // NotificationCompat.Builder builder = new NotificationCompat.Builder(context,CHANNEL_ID);
+
+
+
+       /* NotificationCompat.Builder groupBuilder = builder.setContentTitle("You have new Activity!")
+                        .setContentText("wassup")
+                        .setGroupSummary(true)
+                        .setGroup("GROUP_1")
+                        .setGroup(KEY_NOTIFICATION_GROUP)
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText("wassup"))
+                        .setContentIntent(pendingIntent);
 
         Notification notification = builder.setContentTitle("You have new Activity!")
                 .setContentText(intent.getStringExtra("param"))
@@ -46,15 +61,43 @@ public class AlarmReceiver extends BroadcastReceiver{
                 .setSmallIcon(R.drawable.harvest_iconv2)
                 .setLargeIcon(bitmap)
                 .setAutoCancel(true)
-                .setGroupSummary(true)
                 .setGroup(KEY_NOTIFICATION_GROUP)
-                .setContentIntent(pendingIntent).build();
+                .setContentIntent(pendingIntent).build();*/
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        Notification newMessageNotification1 = new NotificationCompat.Builder(context, CHANNEL_ID)
+                        .setSmallIcon(R.drawable.harvest_iconv2)
+                        .setContentTitle("New Activity Alert!")
+                        .setContentText(intent.getStringExtra("param"))
+                        .setLargeIcon(bitmap)
+                        .setGroup(GROUP_KEY_WORK_EMAIL)
+                         .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
+                         .setContentIntent(pendingIntent)
+                        .build();
+
+
+        Notification summaryNotification  = new NotificationCompat.Builder(context, CHANNEL_ID)
+                        .setContentTitle("You have new activities")
+                        .setContentText("Two new messages")
+                        .setSmallIcon(R.drawable.harvest_iconv2)
+                        //build summary info into InboxStyle template
+                        .setStyle(new NotificationCompat.InboxStyle()
+                                .addLine(" ")
+                                .addLine(" ")
+                                .setBigContentTitle(" ")
+                                .setSummaryText("New Activities"))
+                        //specify which group this notification belongs to
+                        .setGroup(GROUP_KEY_WORK_EMAIL)
+                      .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
+                        //set this notification as the summary for the group
+                        .setGroupSummary(true)
+                        .setSound(null)
+                        .build();
+
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             builder.setChannelId(CHANNEL_ID);
         }
 
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
@@ -62,11 +105,20 @@ public class AlarmReceiver extends BroadcastReceiver{
                     "NotificationDemo",
                     IMPORTANCE_DEFAULT
             );
-            notificationManager.createNotificationChannel(channel);
-        }
+
+        }*/
+        /*NotificationManagerCompat manager = NotificationManagerCompat.from(context);
 
         Random random = new Random();
         int m = random.nextInt(9999 - 1000) + 1000;
-        notificationManager.notify(m, notification);
+        manager.notify(1, groupBuilder.build());
+        manager.notify(m, notification);*/
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+
+        Random random = new Random();
+        int m = random.nextInt(9999 - 1000) + 1000;
+        notificationManager.notify(m, newMessageNotification1);
+        notificationManager.notify(SUMMARY_ID, summaryNotification);
     }
 }

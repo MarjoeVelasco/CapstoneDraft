@@ -1,6 +1,9 @@
 package com.example.poy.capstonedraftv8;
 
+import android.app.AlarmManager;
 import android.app.DialogFragment;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -29,6 +32,7 @@ import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -673,10 +677,62 @@ public class Event_pane2 extends AppCompatActivity {
                         int crop_id = getCropId(crop_name1);
 
                         int a = helper.updateEvent(millisSinceEpoch, mPickedColor, title, start_date, start_time, id, icon, crop_id);
+
                         if (a <= 0) {
                             Message.message(getApplicationContext(), "Unsuccessful");
 
                         } else {
+
+                            Calendar cal = Calendar.getInstance();
+                            long dateChecker = cal.getTimeInMillis();
+
+                            if(dateChecker<millisSinceEpoch)
+                            {
+                                try
+                                {
+                                    AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                                    Intent myIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                                    PendingIntent broadcast2 = PendingIntent.getBroadcast(getApplicationContext(), Integer.parseInt(id) , myIntent, PendingIntent.FLAG_ONE_SHOT);
+                                    broadcast2.cancel();
+                                    alarmManager.cancel(broadcast2);
+
+                                    myIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+
+                                    Cursor dbres15 = helper.getCropData(String.valueOf(crop_id));
+
+                                    if(dbres15.getCount()!=0)
+                                    {
+
+                                        while (dbres15.moveToNext()) {
+
+                                            String crop_name = String.format(dbres15.getString(1));
+                                            String crop=String.format(dbres15.getString(2));
+                                            String temp_title=title+" of "+crop+"("+crop_name+")";
+
+                                            //NOTIF*************
+
+                                            myIntent.putExtra("param", temp_title);
+                                            broadcast2 = PendingIntent.getBroadcast(getApplicationContext(),Integer.parseInt(id), myIntent, PendingIntent.FLAG_ONE_SHOT);
+                                            alarmManager.setExact(AlarmManager.RTC_WAKEUP, millisSinceEpoch, broadcast2);
+                                            Message.message(getApplicationContext(),id);
+
+                                            //END OF NOTIF*************
+
+                                        }
+                                    }
+
+
+
+
+
+                                }
+                                catch (Exception e)
+                                {
+                                    Message.message(getApplicationContext(),e.getMessage());
+                                }
+
+                            }
+
                             Message.message(getApplicationContext(), "Event Updated");
 
                         }

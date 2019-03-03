@@ -2,6 +2,7 @@ package com.example.poy.capstonedraftv8;
 
 public class DataModelEventList {
 
+
     String event_name;
     String event_time;
     String event_date;
@@ -12,9 +13,9 @@ public class DataModelEventList {
     String crop;
     String crop_name;
     String variety;
+    long epochTime;
 
-
-    public DataModelEventList( String event_name,String event_time,String event_date,String event_id,String date_id,int color,int icon,String crop,String crop_name,String variety)
+    public DataModelEventList( String event_name,String event_time,String event_date,String event_id,String date_id,int color,int icon,String crop,String crop_name,String variety,long epochTime)
     {
 
         this.event_name=event_name;
@@ -27,6 +28,7 @@ public class DataModelEventList {
         this.crop=crop;
         this.crop_name=crop_name;
         this.variety=variety;
+        this.epochTime=epochTime;
     }
 
 
@@ -72,6 +74,11 @@ public class DataModelEventList {
     public String getVariety()
     {
         return variety;
+    }
+
+    public long getEpochTime()
+    {
+        return epochTime;
     }
 
 

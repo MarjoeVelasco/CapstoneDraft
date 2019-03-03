@@ -68,12 +68,12 @@ public class BootReceiver extends BroadcastReceiver
 
                                 //NOTIF*************
 
-                                AlarmManager alarmManager = (AlarmManager)context.getSystemService(ALARM_SERVICE);
+                                AddEvent.alarmManager = (AlarmManager)context.getSystemService(ALARM_SERVICE);
                                 Intent notificationIntent = new Intent(context, AlarmReceiver.class);
 
                                 notificationIntent.putExtra("param", temp_title);
-                                PendingIntent broadcast = PendingIntent.getBroadcast(context,Integer.parseInt(id2), notificationIntent, PendingIntent.FLAG_ONE_SHOT);
-                                alarmManager.setExact(AlarmManager.RTC_WAKEUP, date_time, broadcast);
+                                AddEvent.broadcast = PendingIntent.getBroadcast(context,Integer.parseInt(id2), notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                                AddEvent.alarmManager.setExact(AlarmManager.RTC_WAKEUP, date_time, AddEvent.broadcast);
 
                                 //END OF NOTIF*************
 

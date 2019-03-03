@@ -68,6 +68,11 @@ public class AddEvent extends AppCompatActivity {
     public static String start_time;
 
 
+    public static AlarmManager alarmManager;
+    public static PendingIntent broadcast;
+    public static Intent notificationIntent;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -500,12 +505,14 @@ public class AddEvent extends AppCompatActivity {
 
                             //NOTIF*************
 
-                            AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-                            Intent notificationIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                            alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                            notificationIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
 
                             notificationIntent.putExtra("param", temp_title);
-                            PendingIntent broadcast = PendingIntent.getBroadcast(getApplicationContext(),Integer.parseInt(temp_last_id), notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                            broadcast = PendingIntent.getBroadcast(getApplicationContext(),Integer.parseInt(temp_last_id), notificationIntent, PendingIntent.FLAG_ONE_SHOT);
                             alarmManager.setExact(AlarmManager.RTC_WAKEUP, millisSinceEpoch, broadcast);
+                            Message.message(getApplicationContext(),temp_last_id);
+
 
                             //END OF NOTIF*************
 
